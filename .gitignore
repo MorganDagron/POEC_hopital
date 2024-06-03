@@ -39,3 +39,6 @@ logs/
 
 ## Ignore Test files ##
 TestResults
+
+# Ignore connection string file
+ConnectionString.cs
