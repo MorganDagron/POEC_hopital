@@ -10,15 +10,37 @@ namespace _projet_hopital
     {
         static void Main(string[] args)
         {
-            Bonjour();
+            AffichageLogin();
         }
 
-
-        static void Bonjour()
+        static void AffichageLogin()
         {
-            Console.WriteLine("bonjour");
-            Console.WriteLine("Coucou!");
-            Console.WriteLine("Ca va ?!");
+            bool accesAccorde = false;
+
+            while (accesAccorde == false)
+            {
+                Console.WriteLine("Identifiez-vous pour accéder au service");
+                Console.WriteLine("Nom :");
+                string nomLogin = Console.ReadLine();
+                Console.WriteLine("Password :");
+                string passwordLogin = Console.ReadLine();
+
+                if (true)
+                {
+                    accesAccorde = true;
+                    AffichageMenuPrincipal();
+                } else
+                {
+                    Console.WriteLine("Identifiants non reconnus");
+                    Console.WriteLine("Veuillez réessayer");
+                }
+
+            }
+        }
+
+        static void AffichageMenuPrincipal()
+        {
+
         }
     }
 }
