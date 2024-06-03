@@ -1,0 +1,41 @@
+csharp
+## Ignore Visual Studio temporary files ##
+*.vs
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_vshost.exe.config
+*.user
+*.suo
+*.sln.docstates
+
+## Ignore Resharper files ##
+*_ReSharper.*
+*.ReSharper
+
+## Ignore NuGet files ##
+*.nupkg
+packages/
+
+## Ignore build output ##
+bin/
+obj/
+
+## Ignore logs ##
+logs/
+
+## Ignore Test files ##
+TestResults
