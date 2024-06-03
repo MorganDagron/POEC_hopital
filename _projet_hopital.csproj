@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentification.cs" />
+    <Compile Include="ConnectionString.cs" />
     <Compile Include="DAOAuthentification.cs" />
     <Compile Include="DAOPatient.cs" />
     <Compile Include="DAOVisite.cs" />
