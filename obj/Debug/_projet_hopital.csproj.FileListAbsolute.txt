@@ -1,0 +1,6 @@
+S:\POEC\cSharp\solutionTP\_projet_hopital\bin\Debug\_projet_hopital.exe.config
+S:\POEC\cSharp\solutionTP\_projet_hopital\bin\Debug\_projet_hopital.exe
+S:\POEC\cSharp\solutionTP\_projet_hopital\bin\Debug\_projet_hopital.pdb
+S:\POEC\cSharp\solutionTP\_projet_hopital\obj\Debug\_projet_hopital.csproj.CoreCompileInputs.cache
+S:\POEC\cSharp\solutionTP\_projet_hopital\obj\Debug\_projet_hopital.exe
+S:\POEC\cSharp\solutionTP\_projet_hopital\obj\Debug\_projet_hopital.pdb
