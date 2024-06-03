@@ -51,5 +51,3 @@ namespace _projet_hopital
         }
     }
 }
-
-
