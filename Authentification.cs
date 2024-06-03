@@ -13,6 +13,14 @@ namespace _projet_hopital
         private string _nom;
         private int _metier;
 
+        public Authentification(string login, string password, string nom, int metier)
+        {
+            _login = login;
+            _password = password;
+            _nom = nom;
+            _metier = metier;
+        }
+
         public string Login
         {
             get { return _login; }
@@ -35,6 +43,11 @@ namespace _projet_hopital
         {
             get { return _metier; }
             set { _metier = value; }
+        }
+
+        public override string ToString()
+        {
+            return $"Login: {_login}, Nom: {_nom}, Métier: {_metier}";
         }
     }
 }
