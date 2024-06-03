@@ -13,6 +13,10 @@ namespace _projet_hopital
         public string Nom { get; set; }
         public int Metier { get; set; }
 
+        public Authentification()
+        {
+        }
+
         public Authentification(string login, string password, string nom, int metier)
         {
             Login = login;
