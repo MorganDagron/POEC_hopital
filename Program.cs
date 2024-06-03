@@ -10,13 +10,16 @@ namespace _projet_hopital
     {
         static void Main(string[] args)
         {
-            //AffichageLogin();
-            TestCoBDD();
+            DAOAuthentification testLogin = new DAOAuthentification();
+            AffichageLogin();
+            //TestCoBDD();
         }
 
         static void AffichageLogin()
         {
             bool accesAccorde = false;
+
+            
 
             while (accesAccorde == false)
             {
@@ -25,10 +28,14 @@ namespace _projet_hopital
                 string nomLogin = Console.ReadLine();
                 Console.WriteLine("Password :");
                 string passwordLogin = Console.ReadLine();
+                VerificationLogin(nomLogin, passwordLogin);
+
+                //Authentification personne = new Authentification(nomLogin, passwordLogin, )
 
                 if (true)
                 {
                     accesAccorde = true;
+                    Console.WriteLine("Login OK");
                     //AffichageMenuPrincipal();
                 } else
                 {
@@ -41,7 +48,7 @@ namespace _projet_hopital
 
         //static void AffichageMenuPrincipal()
         //{
-        //    Console.WriteLine($"Bonjour {metier} {nom}");
+        //    Console.WriteLine($"Bonjour {nomLogin.Metier} {nom}");
         //    if ()
         //    {
         //        Console.WriteLine("Interface {metier}");
@@ -66,6 +73,19 @@ namespace _projet_hopital
             List<Authentification> all = test.GetAllAuthentifications();
             foreach(Authentification a in all )
                 Console.WriteLine(a.ToString());
+        }
+
+        static void VerificationLogin(string nom, string password)
+        {
+            
+            if (testLogin.GetAuthentification(nom, password) != null)
+            {
+                Console.WriteLine("Identifiant ok");
+            }
+            else
+            {
+                Console.WriteLine("Identifiant non reconnu");
+            }
         }
     }
 }

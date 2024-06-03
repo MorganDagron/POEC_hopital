@@ -39,14 +39,15 @@ namespace _projet_hopital
             return authentifications;
         }
 
-        public Authentification GetAuthentificationByLogin(string login)
+        public Authentification GetAuthentification(string login, string password)
         {
             Authentification authentification = null;
 
             connection.Open();
 
-            SqlCommand command = new SqlCommand("SELECT * FROM authentification WHERE login = @login", connection);
+            SqlCommand command = new SqlCommand("SELECT * FROM authentification WHERE login = @login AND password = @password", connection);
             command.Parameters.AddWithValue("@login", login);
+            command.Parameters.AddWithValue("@password", password);
 
             SqlDataReader reader = command.ExecuteReader();
 
