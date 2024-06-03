@@ -8,43 +8,24 @@ namespace _projet_hopital
 {
     public class Hopital
     {
-        private static Hopital _instance;
-        private List<Salle> _salles;
-        private List<Patient> _patients;
-        private List<Visite> _visites;
-        private List<Authentification> _authentifications;
+        private static Hopital instance;
+        private List<Salle> Salles{ get; set; }
+        private List<Patient> Patients{ get; set; }
+        private List<Visite> Visites{ get; set; }
+        private List<Authentification> Authentifications;
 
         private Hopital()
         {
-            _salles = new List<Salle>();
-            _patients = new List<Patient>();
-            _visites = new List<Visite>();
-            _authentifications = new List<Authentification>();
+            Salles = new List<Salle>();
+            Patients = new List<Patient>();
+            Visites = new List<Visite>();
+            Authentifications = new List<Authentification>();
         }
 
         public static Hopital Instance
         {
-            get { return _instance ?? (_instance = new Hopital()); }
+            get { return instance ?? (instance = new Hopital()); }
         }
 
-        public List<Salle> GetSalles()
-        {
-            return _salles;
-        }
-
-        public List<Patient> GetPatients()
-        {
-            return _patients;
-        }
-
-        public List<Visite> GetVisites()
-        {
-            return _visites;
-        }
-
-        public List<Authentification> GetAuthentifications()
-        {
-            return _authentifications;
-        }
     }
 }
