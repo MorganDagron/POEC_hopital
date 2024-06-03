@@ -11,6 +11,7 @@ namespace _projet_hopital
         static void Main(string[] args)
         {
             AffichageLogin();
+            //TestCoBDD();
         }
 
         static void AffichageLogin()
@@ -41,6 +42,14 @@ namespace _projet_hopital
         static void AffichageMenuPrincipal()
         {
 
+        }
+
+        private static void TestCoBDD()
+        {
+            DAOAuthentification test = new DAOAuthentification();
+            List<Authentification> all = test.GetAllAuthentifications();
+            foreach(Authentification a in all )
+                Console.WriteLine(a.ToString());
         }
     }
 }
