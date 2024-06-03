@@ -1,7 +1,0 @@
-S:\POEC\projet_hopital\bin\Debug\_projet_hopital.exe.config
-S:\POEC\projet_hopital\bin\Debug\_projet_hopital.exe
-S:\POEC\projet_hopital\bin\Debug\_projet_hopital.pdb
-S:\POEC\projet_hopital\obj\Debug\_projet_hopital.csproj.AssemblyReference.cache
-S:\POEC\projet_hopital\obj\Debug\_projet_hopital.csproj.CoreCompileInputs.cache
-S:\POEC\projet_hopital\obj\Debug\_projet_hopital.exe
-S:\POEC\projet_hopital\obj\Debug\_projet_hopital.pdb
