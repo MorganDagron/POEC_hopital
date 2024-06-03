@@ -17,6 +17,7 @@ namespace _projet_hopital
         static void Bonjour()
         {
             Console.WriteLine("bonjour");
+            Console.WriteLine("Coucou!");
         }
     }
 }
