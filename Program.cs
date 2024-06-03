@@ -10,6 +10,13 @@ namespace _projet_hopital
     {
         static void Main(string[] args)
         {
+            Bonjour();
+        }
+
+
+        static void Bonjour()
+        {
+            Console.WriteLine("bonjour");
         }
     }
 }
