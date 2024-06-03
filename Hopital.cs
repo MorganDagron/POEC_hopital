@@ -9,22 +9,70 @@ namespace _projet_hopital
     public class Hopital
     {
         private static Hopital instance;
-        private List<Salle> Salles{ get; set; }
-        private List<Patient> Patients{ get; set; }
+        private List<Salle> salles;
+        private int index;
+        /*private List<Patient> Patients{ get; set; }
         private List<Visite> Visites{ get; set; }
-        private List<Authentification> Authentifications;
+        private List<Authentification> Authentifications;*/
 
         private Hopital()
         {
-            Salles = new List<Salle>();
-            Patients = new List<Patient>();
-            Visites = new List<Visite>();
-            Authentifications = new List<Authentification>();
+            salles = new List<Salle>();
+            index = 0;
         }
 
         public static Hopital Instance
         {
-            get { return instance ?? (instance = new Hopital()); }
+            //get { return instance ?? (instance = new Hopital()); }
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Hopital();
+                }
+                return instance;
+            }
+        }
+
+        public void AddSalle(Salle salle)
+        {
+            salles.Add(salle);
+        }
+
+        public void DeleteSalle(Salle salle)
+        {
+            salles.Remove(salle);
+        }
+
+        private Salle GetNextSalle()
+        {
+            if (salles.Count == 0)
+            {
+                return null;
+            }
+
+            for (int i = 0; i < salles.Count; i++)
+            {
+                index = (index + 1) % salles.Count;
+                if (salles[index].EstOuvert)
+                {
+                    return salles[index];
+                }
+            }
+
+            return null;
+        }
+
+        public bool AffecteSalle(int IdPatient)
+        {
+            Salle salle = GetNextSalle();
+            if (salle != null)
+            {
+                salle.AffecteSalle(IdPatient);
+                return true;
+            }
+            Console.WriteLine("Aucune salle ouverte.");
+            return false;
         }
 
     }

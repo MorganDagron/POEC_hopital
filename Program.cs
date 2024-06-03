@@ -10,16 +10,16 @@ namespace _projet_hopital
     {
         static void Main(string[] args)
         {
-            DAOAuthentification testLogin = new DAOAuthentification();
-            AffichageLogin();
+            //AffichageLogin();
             //TestCoBDD();
+            TestAffectationSalle1Puis2();
         }
 
         static void AffichageLogin()
         {
             bool accesAccorde = false;
 
-            
+
 
             while (accesAccorde == false)
             {
@@ -37,7 +37,8 @@ namespace _projet_hopital
                     accesAccorde = true;
                     Console.WriteLine("Login OK");
                     //AffichageMenuPrincipal();
-                } else
+                }
+                else
                 {
                     Console.WriteLine("Identifiants non reconnus");
                     Console.WriteLine("Veuillez réessayer");
@@ -71,14 +72,14 @@ namespace _projet_hopital
         {
             DAOAuthentification test = new DAOAuthentification();
             List<Authentification> all = test.GetAllAuthentifications();
-            foreach(Authentification a in all )
+            foreach (Authentification a in all)
                 Console.WriteLine(a.ToString());
         }
 
         static void VerificationLogin(string nom, string password)
         {
-            
-            if (testLogin.GetAuthentification(nom, password) != null)
+            DAOAuthentification dao = new DAOAuthentification();
+            if (dao.GetAuthentification(nom, password) != null)
             {
                 Console.WriteLine("Identifiant ok");
             }
@@ -87,5 +88,34 @@ namespace _projet_hopital
                 Console.WriteLine("Identifiant non reconnu");
             }
         }
+
+
+        private static void TestAffectationSalle1Puis2()
+        {
+            Salle s1 = new Salle(1);
+            Salle s2 = new Salle(2);
+            Hopital hopital = Hopital.Instance;
+            hopital.AddSalle(s1);
+            hopital.AddSalle(s2);
+            Visite v1 = new Visite();
+            Visite v2 = new Visite();
+
+            Console.WriteLine("----------TEST1----------");
+            AffecteSalle(v1, v2);
+            Console.WriteLine("----------TEST2----------");
+            s1.EstOuvert = false;
+            AffecteSalle(v1, v2);
+            Console.WriteLine("----------TEST3----------");
+            hopital.DeleteSalle(s2);
+            AffecteSalle(v1, v2);
+
+        }
+        private static void AffecteSalle(Visite v1, Visite v2)
+        {
+            v1.AffecteSalle(15);
+            v2.AffecteSalle(13);
+        }
+
     }
 }
+
