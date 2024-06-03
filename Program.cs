@@ -10,8 +10,8 @@ namespace _projet_hopital
     {
         static void Main(string[] args)
         {
-            AffichageLogin();
-            //TestCoBDD();
+            //AffichageLogin();
+            TestCoBDD();
         }
 
         static void AffichageLogin()
@@ -59,10 +59,6 @@ namespace _projet_hopital
         //        Console.WriteLine("4. Déconnexion");
         //    }
         //}
-        static void AffichageMenuPrincipal()
-        {
-
-        }
 
         private static void TestCoBDD()
         {
