@@ -28,7 +28,7 @@ namespace _projet_hopital
                 if (true)
                 {
                     accesAccorde = true;
-                    AffichageMenuPrincipal();
+                    //AffichageMenuPrincipal();
                 } else
                 {
                     Console.WriteLine("Identifiants non reconnus");
@@ -38,9 +38,25 @@ namespace _projet_hopital
             }
         }
 
-        static void AffichageMenuPrincipal()
-        {
-
-        }
+        //static void AffichageMenuPrincipal()
+        //{
+        //    Console.WriteLine($"Bonjour {metier} {nom}");
+        //    if ()
+        //    {
+        //        Console.WriteLine("Interface {metier}");
+        //        Console.WriteLine("1. Accueillir un nouveau patient");
+        //        Console.WriteLine("2. Afficher la file d'attente");
+        //        Console.WriteLine("3. Sauvegarder la liste des patients du jour");
+        //        Console.WriteLine("4. Déconnexion");
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("Interface {metier} - Choix de la section via n° correpondant");
+        //        Console.WriteLine("1. Ajouter un patient à la file d'attente");
+        //        Console.WriteLine("2. Afficher la file d'attente");
+        //        Console.WriteLine("3. Afficher le prochain patient de la file");
+        //        Console.WriteLine("4. Déconnexion");
+        //    }
+        //}
     }
 }
