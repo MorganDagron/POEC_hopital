@@ -18,6 +18,7 @@ namespace _projet_hopital
         {
             Console.WriteLine("bonjour");
             Console.WriteLine("Coucou!");
+            Console.WriteLine("Ca va ?!");
         }
     }
 }
