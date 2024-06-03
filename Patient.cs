@@ -8,21 +8,19 @@ namespace _projet_hopital
 {
     class Patient
     {
-        private int id;
-        private string prenom;
-        private string nom; 
-        private int age;
-        private string adresse;
-        private int telephone;
+        public int Id { get; set; }
+        public string Nom { get; set; }
+        public string Prenom { get; set; }
+        public int Age { get; set; }
+        public string Adresse { get; set; }
+        public string Telephone { get; set; }
 
         public Patient() { }
 
 
         public override string ToString()
         {
-            string res = $"Patient : {nom} {prenom} (identifiant n° {id})";
-            res = $"\nAdresse : {adresse} - Téléphone : {telephone}" ;
-            return "Patient :";
+            return $"Patient : {Nom} {Prenom}, (identifiant n° {Id}), {Age} ans,\nAdresse: { Adresse} - Téléphone : {Telephone}";
         }
     }
 }

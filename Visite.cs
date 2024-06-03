@@ -8,10 +8,10 @@ namespace _projet_hopital
 {
     class Visite
     {
-        public int Id { get; }
+        public int Id { get; set; }
         public int IdPatient { get; set; }
         public string NomMedecin { get; set; }
-        public decimal CoutVisite { get; set; }
+        public int CoutVisite { get; set; }
         public DateTime DateVisite { get; set; }
         public int NumSalle { get; set; }
 
