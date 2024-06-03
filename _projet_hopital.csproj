@@ -48,9 +48,11 @@
     <Compile Include="DAOAuthentification.cs" />
     <Compile Include="DAOPatient.cs" />
     <Compile Include="DAOVisite.cs" />
+    <Compile Include="Hopital.cs" />
     <Compile Include="Patient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Salle.cs" />
     <Compile Include="Visite.cs" />
   </ItemGroup>
   <ItemGroup>

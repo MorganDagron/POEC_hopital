@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _projet_hopital
 {
-    class Visite
+    public class Visite
     {
         public int Id { get; set; }
         public int IdPatient { get; set; }
