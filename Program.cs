@@ -28,20 +28,19 @@ namespace _projet_hopital
                 Console.WriteLine("Password :");
                 string passwordLogin = Console.ReadLine();
                 personne = VerificationLogin(nomLogin, passwordLogin);
-                Console.WriteLine(personne.ToString());
 
-                if (personne.Metier != null)
+                if (personne.Login !=null)
                 {
                     accesAccorde = true;
                     AffichageMenuPrincipal(personne);
                 }
                 else
                 {
-                    Console.WriteLine("Quitter la console ? O/N");
+                    Console.WriteLine("Appuyer sur n'importe quelle touche pour réessayer de vous connecter ou 'Q'' pour quitter");
                     string quitter = Console.ReadLine();
-                    if (quitter.ToLower() == "o")
+                    if (quitter.ToLower() == "q")
                     {
-                        break;
+                        Environment.Exit(0);
                     }
                 }
 
