@@ -70,7 +70,7 @@ namespace _projet_hopital
         {
             connection.Open();
 
-            SqlCommand command = new SqlCommand("INSERT INTO patients (id nom, prenom, age, adresse, telephone) VALUES (@id @nom, @prenom, @age, @adresse, @telephone)", connection);
+            SqlCommand command = new SqlCommand("INSERT INTO patients (id, nom, prenom, age, adresse, telephone) VALUES (@id, @nom, @prenom, @age, @adresse, @telephone)", connection);
             command.Parameters.AddWithValue("@id", patient.Id);
             command.Parameters.AddWithValue("@nom", patient.Nom);
             command.Parameters.AddWithValue("@prenom", patient.Prenom);
