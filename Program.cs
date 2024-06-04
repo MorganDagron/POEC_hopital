@@ -50,9 +50,7 @@ namespace _projet_hopital
 
         static void AffichageMenuPrincipal(Authentification P)
         {
-            DAOVisite dao = new DAOVisite();
             List<Patient> fileAttente = new List<Patient>();
-            List<Visite> visites = new List<Visite>();
             Salle s1 = new Salle(1);
             Salle s2 = new Salle(2);
             Hopital hopital = Hopital.Instance;
@@ -115,6 +113,8 @@ namespace _projet_hopital
 
         public static void choixMenuMedecin(Authentification P, List<Patient> fileAttente)
         {
+            List<Visite> visites = new List<Visite>();
+            DAOVisite dao = new DAOVisite();
             bool quitter = false;
             while (!quitter)
             {
@@ -127,45 +127,44 @@ namespace _projet_hopital
                 Console.WriteLine("------------------------"); ;
                 int choixUtilisateur = Convert.ToInt32(Console.ReadLine());
 
-                switch (choixUtilisateur)
+                Console.WriteLine($"Interface {P.Metier} - Choix de la section via n° correspondant");
+                Console.WriteLine("1. Ajouter une nouvelle visite");
+                Console.WriteLine("2. Afficher les patients en attente");
+                Console.WriteLine("3. Sauvegarder les visites en base de données");
+                Console.WriteLine("4. Déconnexion");
+
+                string choix = Console.ReadLine();
+
+                switch (choix)
                 {
-                    Console.WriteLine($"Interface {P.Metier} - Choix de la section via n° correspondant");
-                    Console.WriteLine("1. Ajouter une nouvelle visite");
-                    Console.WriteLine("2. Afficher les patients en attente");
-                    Console.WriteLine("3. Sauvegarder les visites en base de données");
-                    Console.WriteLine("4. Déconnexion");
-
-                    string choix = Console.ReadLine();
-
-                    switch (choix)
-                    {
-                        case "1":
-                            AfficherPatient(fileAttente.Last(), fileAttente, P, visites);
-                            break;
-                        case 2:
-                            AfficherPatientsEnAttente(fileAttente);
-                            break;
-                        case "3":
-                            foreach (Visite v in visites)
-                                dao.InsertVisite(v);
-                            break;
-                        case "4":
-                            continuer = false;
-                            break;
-                        default:
-                            Console.WriteLine("choix invalide. veuillez réessayer.");
-                            break;
-                    }
-
+                    case "1":
+                        AfficherPatient(fileAttente.Last(), fileAttente, P, visites);
+                        break;
+                    case "2":
+                        AfficherPatientsEnAttente(fileAttente);
+                        break;
+                    case "3":
+                        foreach (Visite v in visites)
+                            dao.InsertVisite(v);
+                        break;
+                    case "4":
+                        quitter = false;
+                        break;
+                    default:
+                        Console.WriteLine("choix invalide. veuillez réessayer.");
+                        break;
                 }
+
             }
+
+
         }
 
         private static void AfficherPatientsEnAttente(List<Patient> fileAttente)
         {
             int cpt = 1;
             Console.WriteLine("\n\nPatients présents dans la file d'attente\n");
-            if (fileAttente!= null)
+            if (fileAttente != null)
             {
                 foreach (var patient in fileAttente)
                 {
@@ -195,7 +194,7 @@ namespace _projet_hopital
         private static void AfficherProchainPatient(List<Patient> fileAttente)
         {
             Console.WriteLine("Prochaine personne en consultation :");
-            if(fileAttente[0] != null)
+            if (fileAttente[0] != null)
             {
                 Console.WriteLine(fileAttente[0].ToString());
             }
@@ -311,7 +310,8 @@ namespace _projet_hopital
                     dao.InsertPatient(nouveauPatient);
                     fileAttente.Add(nouveauPatient);
                 }
-            } else
+            }
+            else
             {
                 Console.WriteLine("patient déja présent dans la file d'attente");
             }
