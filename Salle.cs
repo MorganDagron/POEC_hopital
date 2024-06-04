@@ -19,7 +19,7 @@ namespace _projet_hopital
 
         public bool EstOuvert { get => estOuvert; set => estOuvert = value; }
 
-        public void AffecteSalle(int IdPatient)
+        public int AffecteSalle(int IdPatient)
         {
             if (estOuvert)
             {
@@ -30,6 +30,7 @@ namespace _projet_hopital
                 Console.WriteLine($"Salle n° {Numero} est fermé");
 
             }
+            return Numero;
         }
 
         public override string ToString()

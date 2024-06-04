@@ -12,10 +12,8 @@ namespace _projet_hopital
         {
             //AddPatientToBdd();
             AffichageLogin();
-            //TestCoBDD();
+
             //TestAffectationSalle1Puis2();
-            // Création d'une instance de DAOVisite
-            DAOVisite daoVisite = new DAOVisite();
             TestAffectationSalle1Puis2();
         }
 
@@ -52,8 +50,14 @@ namespace _projet_hopital
 
         static void AffichageMenuPrincipal(Authentification P)
         {
+            DAOVisite dao = new DAOVisite();
             List<Patient> fileAttente = new List<Patient>();
-            DAOVisite daoVisite = new DAOVisite();
+            List<Visite> visites = new List<Visite>();
+            Salle s1 = new Salle(1);
+            Salle s2 = new Salle(2);
+            Hopital hopital = Hopital.Instance;
+            hopital.AddSalle(s1);
+            hopital.AddSalle(s2);
 
             if (P.Metier == 0)
             {
@@ -125,21 +129,34 @@ namespace _projet_hopital
 
                 switch (choixUtilisateur)
                 {
-                    case 1:
-                        //AjouterNouvelleVisite(daoVisite);
-                        break;
-                    case 2:
-                        AfficherPatientsEnAttente(fileAttente);
-                        break;
-                    case 3:
-                        //EnregistrerVisitesEnBaseDeDonnees(daoVisite);
-                        break;
-                    case 4:
-                        quitter = true;
-                        break;
-                    default:
-                        Console.WriteLine("Choix invalide. Veuillez réessayer.");
-                        break;
+                    Console.WriteLine($"Interface {P.Metier} - Choix de la section via n° correspondant");
+                    Console.WriteLine("1. Ajouter une nouvelle visite");
+                    Console.WriteLine("2. Afficher les patients en attente");
+                    Console.WriteLine("3. Sauvegarder les visites en base de données");
+                    Console.WriteLine("4. Déconnexion");
+
+                    string choix = Console.ReadLine();
+
+                    switch (choix)
+                    {
+                        case "1":
+                            AfficherPatient(fileAttente.Last(), fileAttente, P, visites);
+                            break;
+                        case 2:
+                            AfficherPatientsEnAttente(fileAttente);
+                            break;
+                        case "3":
+                            foreach (Visite v in visites)
+                                dao.InsertVisite(v);
+                            break;
+                        case "4":
+                            continuer = false;
+                            break;
+                        default:
+                            Console.WriteLine("choix invalide. veuillez réessayer.");
+                            break;
+                    }
+
                 }
             }
         }
@@ -159,6 +176,22 @@ namespace _projet_hopital
             }
         }
 
+        private static void AfficherPatient(Patient patient, List<Patient> fileAttente, Authentification p, List<Visite> visites)
+        {
+            DAOVisite dao = new DAOVisite();
+            patient.AffecteSalle();
+            Console.WriteLine(patient.ToString());
+            //Ajouté la patient à la la liste des visites
+            visites.Add(new Visite(patient.Id, p.Nom, DateTime.Now, patient.NumSalle));
+            //Si la liste est supérieur ou égal à 5 alors envoyé en bdd automatiquement
+            if (visites.Count >= 5)
+                foreach (Visite v in visites)
+                    dao.InsertVisite(v);
+            //supprimer patient de la file d'attente
+            fileAttente.Remove(patient);
+
+        }
+
         private static void AfficherProchainPatient(List<Patient> fileAttente)
         {
             Console.WriteLine("Prochaine personne en consultation :");
@@ -167,18 +200,6 @@ namespace _projet_hopital
                 Console.WriteLine(fileAttente[0].ToString());
             }
         }
-
-        //private static void EnregistrerVisitesEnBaseDeDonnees(DAOVisite daoVisite)
-        //{
-        //    // Obtenez la liste des visites à partir de la méthode GetAllVisites de daoVisite
-        //    List<Visite> visites = daoVisite.GetAllVisites();
-
-        //    // Enregistrez les visites dans la base de données
-        //    daoVisite.SaveVisitsToDatabase(visites);
-
-        //    // Affichez un message indiquant que les visites ont été enregistrées en base de données
-        //    Console.WriteLine("Visites enregistrées en base de données.");
-        //}
 
 
         static Authentification VerificationLogin(string nom, string password)
@@ -241,7 +262,6 @@ namespace _projet_hopital
             dao.InsertPatient(patient3);
             dao.InsertPatient(patient4);
             dao.InsertPatient(patient5);
-
         }
 
         public static void AjoutPatientFileAttente(List<Patient> fileAttente)

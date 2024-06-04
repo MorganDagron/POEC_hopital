@@ -81,34 +81,30 @@ namespace _projet_hopital
             connection.Close();
         }
 
-        //public List<Patient> GetWaitingPatients()
-        //{
-        //    List<Patient> patients = new List<Patient>();
+        public void UpdateVisite(Visite visite)
+        {
+            connection.Open();
 
-        //    connection.Open();
+            SqlCommand command = new SqlCommand("UPDATE visites SET idpatient = @idpatient, date = @date, medecin = @medecin, num_salle = @num_salle WHERE id = @id", connection);
+            command.Parameters.AddWithValue("@idpatient", visite.IdPatient);
+            command.Parameters.AddWithValue("@date", visite.DateVisite);
+            command.Parameters.AddWithValue("@medecin", visite.NomMedecin);
+            command.Parameters.AddWithValue("@num_salle", visite.NumSalle);
+            command.Parameters.AddWithValue("@id", visite.Id);
 
-        //    SqlCommand command = new SqlCommand("SELECT * FROM patients WHERE id IN (SELECT idpatient FROM visites WHERE num_salle IS NULL)", connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
 
-        //    SqlDataReader reader = command.ExecuteReader();
+        public void DeleteVisite(int id)
+        {
+            connection.Open();
 
-        //    while (reader.Read())
-        //    {
-        //        Patient patient = new Patient
-        //        {
-        //            Id = (int)reader["id"],
-        //            Nom = (string)reader["nom"],
-        //            Prenom = (string)reader["prenom"],
-        //            Age = (int)reader["age"],
-        //            Adresse = (string)reader["adresse"],
-        //            Telephone = (string)reader["telephone"]
-        //        };
+            SqlCommand command = new SqlCommand("DELETE FROM visites WHERE id = @id", connection);
+            command.Parameters.AddWithValue("@id", id);
 
-        //        patients.Add(patient);
-        //    }
-
-        //    reader.Close();
-        //    connection.Close();
-        //    return patients;
-        //}
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
     }
 }
