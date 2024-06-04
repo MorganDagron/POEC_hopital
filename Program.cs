@@ -12,8 +12,8 @@ namespace _projet_hopital
         {
             //AffichageLogin();
             //TestCoBDD();
-            AddPatientToBdd();
-            TestAffectationSalle1Puis2();
+            //AddPatientToBdd();
+            //TestAffectationSalle1Puis2();
             
         }
 
@@ -21,6 +21,7 @@ namespace _projet_hopital
         {
             Authentification personne = new Authentification();
             bool accesAccorde = false;
+            
 
             while (accesAccorde == false)
             {
@@ -64,9 +65,13 @@ namespace _projet_hopital
                 switch (choixMenu)
                 {
                     case 1:
-                        AjoutPatientFileAttente(P);
+                        //AjoutPatientFileAttente(P, fileAttente);
                         break;
                     case 2:
+                        //foreach(Patient p in fileAttente)
+                        //{
+                        //    Console.WriteLine(p.ToString());
+                        //}
                         break;
                     default:
                         Console.WriteLine("Veuillez selectionner un n° présent dans la liste");
@@ -160,8 +165,33 @@ namespace _projet_hopital
 
         }
 
-        static void AjoutPatientFileAttente(Authentification P)
+        private static List<Patient> CreationPatients()
         {
+            List<Patient> listePatient = new List<Patient>();
+
+            listePatient.Add(new Patient(2, "MARTIN", "Marie", 25, "45 avenue de la République", "07 89 01 23 45"));
+            listePatient.Add(new Patient(4, "ROUSSEAU", "François", 35, "90 avenue de la République", "07 12 34 56 78"));
+            listePatient.Add(new Patient(0, "DUPONT", "Pierre", 30, "12 rue de la Paix", "06 12 34 56 78"));
+            listePatient.Add(new Patient(0, "LEFEBVRE", "Jean", 40, "78 rue de la Liberté", "05 67 89 01 23"));
+            listePatient.Add(new Patient(0, "DURAND", "Sophie", 28, "34 rue de la Paix", "06 78 90 12 34"));
+
+            return listePatient;
+        }
+
+        static void AjoutPatientFileAttente(Patient patient, List<Patient> fileAttente)
+        {
+            DAOPatient dao = new DAOPatient();
+            if (dao.GetPatientById(patient.Id) != null)
+            {
+                fileAttente.Add(patient);
+            } else
+            {
+                Console.WriteLine("Attribuez un ID au nouveau patient");
+                int newID = Convert.ToInt32(Console.ReadLine());
+                Patient nouveauPatient = patient;
+                nouveauPatient.Id = newID;
+                dao.InsertPatient(nouveauPatient);
+            }
 
         }
 
