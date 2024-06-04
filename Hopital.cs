@@ -63,16 +63,16 @@ namespace _projet_hopital
             return null;
         }
 
-        public bool AffecteSalle(int IdPatient)
+        public int AffecteSalle(int IdPatient)
         {
             Salle salle = GetNextSalle();
             if (salle != null)
             {
-                salle.AffecteSalle(IdPatient);
-                return true;
+                
+                return salle.AffecteSalle(IdPatient); ;
             }
             Console.WriteLine("Aucune salle ouverte.");
-            return false;
+            return 0;
         }
 
     }

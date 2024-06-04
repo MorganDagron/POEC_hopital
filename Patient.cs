@@ -14,6 +14,7 @@ namespace _projet_hopital
         public int Age { get; set; }
         public string Adresse { get; set; }
         public string Telephone { get; set; }
+        public int NumSalle { get; set; }
         private Hopital hopital;
 
         public Patient()
@@ -23,7 +24,7 @@ namespace _projet_hopital
 
         public void AffecteSalle()
         {
-            hopital.AffecteSalle(Id);
+            NumSalle = hopital.AffecteSalle(Id);
         }
 
         public Patient(int id, string nom, string prenom, int age, string adresse, string telephone)

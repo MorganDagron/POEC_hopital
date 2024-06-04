@@ -81,52 +81,29 @@ namespace _projet_hopital
             connection.Close();
         }
 
-        public List<Patient> GetWaitingPatients()
+        public void UpdateVisite(Visite visite)
         {
-            List<Patient> patients = new List<Patient>();
-
             connection.Open();
 
-            SqlCommand command = new SqlCommand("SELECT * FROM patients WHERE id IN (SELECT idpatient FROM visites WHERE num_salle IS NULL)", connection);
+            SqlCommand command = new SqlCommand("UPDATE visites SET idpatient = @idpatient, date = @date, medecin = @medecin, num_salle = @num_salle WHERE id = @id", connection);
+            command.Parameters.AddWithValue("@idpatient", visite.IdPatient);
+            command.Parameters.AddWithValue("@date", visite.DateVisite);
+            command.Parameters.AddWithValue("@medecin", visite.NomMedecin);
+            command.Parameters.AddWithValue("@num_salle", visite.NumSalle);
+            command.Parameters.AddWithValue("@id", visite.Id);
 
-            SqlDataReader reader = command.ExecuteReader();
-
-            while (reader.Read())
-            {
-                Patient patient = new Patient
-                {
-                    Id = (int)reader["id"],
-                    Nom = (string)reader["nom"],
-                    Prenom = (string)reader["prenom"],
-                    Age = (int)reader["age"],
-                    Adresse = (string)reader["adresse"],
-                    Telephone = (string)reader["telephone"]
-                };
-
-                patients.Add(patient);
-            }
-
-            reader.Close();
+            command.ExecuteNonQuery();
             connection.Close();
-            return patients;
         }
 
-        public void SaveVisitsToDatabase(List<Visite> visites)
+        public void DeleteVisite(int id)
         {
             connection.Open();
 
-            foreach (Visite visite in visites)
-            {
-                SqlCommand command = new SqlCommand("INSERT INTO visites (idpatient, nom_medecin, cout_visite, date_visite, num_salle) VALUES (@idpatient, @nom_medecin, @cout_visite, @date_visite, @num_salle)", connection);
-                command.Parameters.AddWithValue("@idpatient", visite.IdPatient);
-                command.Parameters.AddWithValue("@nom_medecin", visite.NomMedecin);
-                command.Parameters.AddWithValue("@cout_visite", visite.CoutVisite);
-                command.Parameters.AddWithValue("@date_visite", visite.DateVisite);
-                command.Parameters.AddWithValue("@num_salle", visite.NumSalle);
+            SqlCommand command = new SqlCommand("DELETE FROM visites WHERE id = @id", connection);
+            command.Parameters.AddWithValue("@id", id);
 
-                command.ExecuteNonQuery();
-            }
-
+            command.ExecuteNonQuery();
             connection.Close();
         }
     }
