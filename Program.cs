@@ -14,11 +14,6 @@ namespace _projet_hopital
             //TestCoBDD();
             //AddPatientToBdd();
             //TestAffectationSalle1Puis2();
-            // Création d'une instance de DAOVisite
-            DAOVisite daoVisite = new DAOVisite();
-
-            // Appel de la méthode QuitMenu pour gérer les opérations de la classe Visite
-            daoVisite.QuitMenu();
 
             AddPatientToBdd();
             TestAffectationSalle1Puis2();
@@ -135,15 +130,6 @@ namespace _projet_hopital
                     break;
             }
         }
-
-        //private static void AfficherPatientsEnAttente(DAOVisite daoVisite)
-        //{
-        //    List<Patient> patients = daoVisite.GetWaitingPatients();
-        //    foreach (var patient in patients)
-        //    {
-        //        Console.WriteLine(patient.ToString());
-        //    }
-        //}
 
         private static void EnregistrerVisitesEnBaseDeDonnees(DAOVisite daoVisite)
         {
