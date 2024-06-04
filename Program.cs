@@ -270,12 +270,6 @@ namespace _projet_hopital
             AffecteSalle(p1, p2);
             Console.WriteLine("----------TEST3 → 0 salle ouverte----------");
             hopital.DeleteSalle(s2);
-            AffecteSalle(v1, v2);
-        }
-
-        private static void AffecteSalle(Visite v1, Visite v2)
-        {
-            AffecteSalle(p1, p2);
         }
         private static void AffecteSalle(Patient p1, Patient p2)
         {
