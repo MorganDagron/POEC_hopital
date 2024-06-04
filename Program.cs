@@ -10,7 +10,7 @@ namespace _projet_hopital
     {
         static void Main(string[] args)
         {
-            AffichageLogin();
+            //AffichageLogin();
             //TestCoBDD();
             //TestAffectationSalle1Puis2();
 
@@ -20,6 +20,8 @@ namespace _projet_hopital
             // Appel de la méthode QuitMenu pour gérer les opérations de la classe Visite
             daoVisite.QuitMenu();
 
+            AddPatientToBdd();
+            TestAffectationSalle1Puis2();
         }
 
         static void AffichageLogin()
@@ -251,28 +253,53 @@ namespace _projet_hopital
 
         private static void TestAffectationSalle1Puis2()
         {
+            DAOPatient dao = new DAOPatient();
             Salle s1 = new Salle(1);
             Salle s2 = new Salle(2);
             Hopital hopital = Hopital.Instance;
             hopital.AddSalle(s1);
             hopital.AddSalle(s2);
-            Visite v1 = new Visite();
-            Visite v2 = new Visite();
 
-            Console.WriteLine("----------TEST1----------");
-            AffecteSalle(v1, v2);
-            Console.WriteLine("----------TEST2----------");
+            Patient p1 = dao.GetPatientById(1);
+            Patient p2 = dao.GetPatientById(2);
+
+            Console.WriteLine("----------TEST1 → 2 salles ouvertes----------");
+            AffecteSalle(p1, p2);
+            Console.WriteLine("----------TEST2 → 1 salle ouverte----------");
             s1.EstOuvert = false;
-            AffecteSalle(v1, v2);
-            Console.WriteLine("----------TEST3----------");
+            AffecteSalle(p1, p2);
+            Console.WriteLine("----------TEST3 → 0 salle ouverte----------");
             hopital.DeleteSalle(s2);
             AffecteSalle(v1, v2);
         }
 
         private static void AffecteSalle(Visite v1, Visite v2)
         {
-            v1.AffecteSalle(15);
-            v2.AffecteSalle(13);
+            AffecteSalle(p1, p2);
+        }
+        private static void AffecteSalle(Patient p1, Patient p2)
+        {
+            p1.AffecteSalle();
+            p2.AffecteSalle();
+        }
+
+        private static void AddPatientToBdd()
+        {
+            // Création de 5 patients
+            Patient patient1 = new Patient (1, "DUPONT", "Pierre", 30, "12 rue de la Paix", "06 12 34 56 78");
+            Patient patient2 = new Patient (2, "MARTIN", "Marie", 25, "45 avenue de la République", "07 89 01 23 45");
+            Patient patient3 = new Patient (3, "LEFEBVRE", "Jean", 40, "78 rue de la Liberté", "05 67 89 01 23");
+            Patient patient4 = new Patient (4, "DURAND", "Sophie", 28, "34 rue de la Paix",  "06 78 90 12 34");
+            Patient patient5 = new Patient (5, "ROUSSEAU", "François", 35, "90 avenue de la République", "07 12 34 56 78");
+
+            // Insertion des patients dans la base de données à l'aide du DAO
+            DAOPatient dao = new DAOPatient();
+            dao.InsertPatient(patient1);
+            dao.InsertPatient(patient2);
+            dao.InsertPatient(patient3);
+            dao.InsertPatient(patient4);
+            dao.InsertPatient(patient5);
+
         }
     }
 }

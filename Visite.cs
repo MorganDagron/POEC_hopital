@@ -14,16 +14,10 @@ namespace _projet_hopital
         public int CoutVisite { get; set; }
         public DateTime DateVisite { get; set; }
         public int NumSalle { get; set; }
-        private Hopital hopital;
 
         public Visite()
         {
-            hopital = Hopital.Instance;
-        }
 
-        public void AffecteSalle(int IdPatient)
-        {
-            hopital.AffecteSalle(IdPatient);
         }
 
         public Visite(int idPatient, string nomMedecin, DateTime dateVisite, int numSalle)

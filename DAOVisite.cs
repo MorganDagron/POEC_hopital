@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -24,9 +24,9 @@ namespace _projet_hopital
                 {
                     Id = (int)reader["id"],
                     IdPatient = (int)reader["idpatient"],
-                    NomMedecin = (string)reader["nom_medecin"],
+                    NomMedecin = (string)reader["medecin"],
                     CoutVisite = (int)reader["cout_visite"],
-                    DateVisite = (DateTime)reader["date_visite"],
+                    DateVisite = (DateTime)reader["date"],
                     NumSalle = (int)reader["num_salle"]
                 };
 
@@ -55,9 +55,9 @@ namespace _projet_hopital
                 {
                     Id = (int)reader["id"],
                     IdPatient = (int)reader["idpatient"],
-                    NomMedecin = (string)reader["nom_medecin"],
+                    NomMedecin = (string)reader["medecin"],
                     CoutVisite = (int)reader["cout_visite"],
-                    DateVisite = (DateTime)reader["date_visite"],
+                    DateVisite = (DateTime)reader["date"],
                     NumSalle = (int)reader["num_salle"]
                 };
             }
@@ -71,11 +71,10 @@ namespace _projet_hopital
         {
             connection.Open();
 
-            SqlCommand command = new SqlCommand("INSERT INTO visites (idpatient, nom_medecin, cout_visite, date_visite, num_salle) VALUES (@idpatient, @nom_medecin, @cout_visite, @date_visite, @num_salle)", connection);
+            SqlCommand command = new SqlCommand("INSERT INTO visites (idpatient, date, medecin, num_salle) VALUES (@idpatient, @date, @medecin, @num_salle)", connection);
             command.Parameters.AddWithValue("@idpatient", visite.IdPatient);
-            command.Parameters.AddWithValue("@nom_medecin", visite.NomMedecin);
-            command.Parameters.AddWithValue("@cout_visite", visite.CoutVisite);
-            command.Parameters.AddWithValue("@date_visite", visite.DateVisite);
+            command.Parameters.AddWithValue("@date", visite.DateVisite);
+            command.Parameters.AddWithValue("@medecin", visite.NomMedecin);
             command.Parameters.AddWithValue("@num_salle", visite.NumSalle);
 
             command.ExecuteNonQuery();
@@ -86,11 +85,10 @@ namespace _projet_hopital
         {
             connection.Open();
 
-            SqlCommand command = new SqlCommand("UPDATE visites SET idpatient = @idpatient, nom_medecin = @nom_medecin, cout_visite = @cout_visite, date_visite = @date_visite, num_salle = @num_salle WHERE id = @id", connection);
+            SqlCommand command = new SqlCommand("UPDATE visites SET idpatient = @idpatient, date = @date, medecin = @medecin, num_salle = @num_salle WHERE id = @id", connection);
             command.Parameters.AddWithValue("@idpatient", visite.IdPatient);
-            command.Parameters.AddWithValue("@nom_medecin", visite.NomMedecin);
-            command.Parameters.AddWithValue("@cout_visite", visite.CoutVisite);
-            command.Parameters.AddWithValue("@date_visite", visite.DateVisite);
+            command.Parameters.AddWithValue("@date", visite.DateVisite);
+            command.Parameters.AddWithValue("@medecin", visite.NomMedecin);
             command.Parameters.AddWithValue("@num_salle", visite.NumSalle);
             command.Parameters.AddWithValue("@id", visite.Id);
 
