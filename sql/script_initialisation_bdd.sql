@@ -7,7 +7,7 @@ GO
 
 -- Création de la table patients
 CREATE TABLE patients (
-    id INT PRIMARY KEY IDENTITY(1,1),
+    id INT PRIMARY KEY,
     nom NVARCHAR(50) NOT NULL,
     prenom NVARCHAR(50) NOT NULL,
     age INT NOT NULL,
