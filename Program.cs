@@ -119,7 +119,7 @@ namespace _projet_hopital
             while (!quitter)
             {
                 Console.WriteLine("\n\n------------------------"); ;
-                Console.WriteLine($"Interface Médecin - Choix de la section via n° correspondant");
+                Console.WriteLine($"Interface {P.Metier} - Choix de la section via n° correspondant");
                 Console.WriteLine("1. Ajouter une nouvelle visite");
                 Console.WriteLine("2. Afficher les patients en attente");
                 Console.WriteLine("3. Sauvegarder les visites en base de données");
@@ -127,27 +127,19 @@ namespace _projet_hopital
                 Console.WriteLine("------------------------"); ;
                 int choixUtilisateur = Convert.ToInt32(Console.ReadLine());
 
-                Console.WriteLine($"Interface {P.Metier} - Choix de la section via n° correspondant");
-                Console.WriteLine("1. Ajouter une nouvelle visite");
-                Console.WriteLine("2. Afficher les patients en attente");
-                Console.WriteLine("3. Sauvegarder les visites en base de données");
-                Console.WriteLine("4. Déconnexion");
-
-                string choix = Console.ReadLine();
-
-                switch (choix)
+                switch (choixUtilisateur)
                 {
-                    case "1":
+                    case 1:
                         AfficherPatient(fileAttente.Last(), fileAttente, P, visites);
                         break;
-                    case "2":
+                    case 2:
                         AfficherPatientsEnAttente(fileAttente);
                         break;
-                    case "3":
+                    case 3:
                         foreach (Visite v in visites)
                             dao.InsertVisite(v);
                         break;
-                    case "4":
+                    case 4:
                         quitter = false;
                         break;
                     default:
