@@ -13,6 +13,7 @@ namespace _projet_hopital
             AffichageLogin();
             //TestCoBDD();
             //TestAffectationSalle1Puis2();
+
             // Création d'une instance de DAOVisite
             DAOVisite daoVisite = new DAOVisite();
 
