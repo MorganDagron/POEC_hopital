@@ -137,57 +137,6 @@ namespace _projet_hopital
             Console.WriteLine("Visites enregistrées en base de données.");
         }
 
-        public void QuitMenu()
-        {
-            bool quit = false;
-
-            while (!quit)
-            {
-                Console.Clear();
-                Console.WriteLine("Menu Principal");
-                Console.WriteLine("1. Afficher toutes les visites");
-                Console.WriteLine("2. Afficher une visite par ID");
-                Console.WriteLine("3. Ajouter une nouvelle visite");
-                Console.WriteLine("4. Afficher les patients en attente");
-                Console.WriteLine("5. Enregistrer les visites en base de données");
-                Console.WriteLine("6. Quitter");
-
-                Console.Write("Sélectionnez une option : ");
-                string choix = Console.ReadLine();
-
-                switch (choix)
-                {
-                    case "1":
-                        AfficherToutesLesVisites();
-                        break;
-                    case "2":
-                        AfficherVisiteParId();
-                        break;
-                    case "3":
-                        AjouterNouvelleVisite();
-                        break;
-                    case "4":
-                        AfficherPatientsEnAttente();
-                        break;
-                    case "5":
-                        EnregistrerVisitesEnBaseDeDonnees();
-                        break;
-                    case "6":
-                        quit = true;
-                        break;
-                    default:
-                        Console.WriteLine("Option invalide. Veuillez réessayer.");
-                        break;
-                }
-
-                if (!quit)
-                {
-                    Console.WriteLine("Appuyez sur une touche pour continuer...");
-                    Console.ReadKey();
-                }
-            }
-        }
-
         private void AfficherToutesLesVisites()
         {
             List<Visite> visites = GetAllVisites();
