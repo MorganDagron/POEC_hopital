@@ -106,6 +106,5 @@ namespace _projet_hopital
             command.ExecuteNonQuery();
             connection.Close();
         }
-
     }
 }
