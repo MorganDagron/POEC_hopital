@@ -23,9 +23,9 @@ namespace _projet_hopital
             while (accesAccorde == false)
             {
                 Console.WriteLine("Identifiez-vous pour accéder au service");
-                Console.WriteLine("Nom :");
+                Console.WriteLine("Identifiant :");
                 string nomLogin = Console.ReadLine();
-                Console.WriteLine("Password :");
+                Console.WriteLine("Mot de passe :");
                 string passwordLogin = Console.ReadLine();
                 personne = VerificationLogin(nomLogin, passwordLogin);
 
@@ -52,18 +52,31 @@ namespace _projet_hopital
             Console.WriteLine($"Bonjour {P.Metier} {P.Nom}");
             if (P.Metier == 0)
             {
-                Console.WriteLine($"Interface {P.Metier}");
-                Console.WriteLine("1. Accueillir un nouveau patient");
-                Console.WriteLine("2. Afficher la file d'attente");
-                Console.WriteLine("3. Sauvegarder la liste des patients du jour");
-                Console.WriteLine("4. Déconnexion");
-            }
-            else if (P.Metier >= 1)
-            {
-                Console.WriteLine($"Interface {P.Metier} - Choix de la section via n° correpondant");
+                Console.WriteLine($"Interface {P.Metier} - Tapez le n° correpondant à votre choix");
                 Console.WriteLine("1. Ajouter un patient à la file d'attente");
                 Console.WriteLine("2. Afficher la file d'attente");
                 Console.WriteLine("3. Afficher le prochain patient de la file");
+                Console.WriteLine("4. Déconnexion");
+                int choixMenu = Convert.ToInt32(Console.ReadLine());
+
+                switch (choixMenu)
+                {
+                    case 1:
+                        AjoutPatientFileAttente(P);
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        Console.WriteLine("Veuillez selectionner un n° présent dans la liste");
+                        break;
+                }
+            }
+            else if (P.Metier >= 1)
+            {
+                Console.WriteLine($"Interface {P.Metier} - Tapez le n° correpondant à votre choix");
+                Console.WriteLine("1. Accueillir un nouveau patient");
+                Console.WriteLine("2. Afficher la file d'attente");
+                Console.WriteLine("3. Sauvegarder la liste des patients du jour");
                 Console.WriteLine("4. Déconnexion");
             } else
             {
@@ -122,6 +135,11 @@ namespace _projet_hopital
         {
             v1.AffecteSalle(15);
             v2.AffecteSalle(13);
+        }
+
+        static void AjoutPatientFileAttente(Authentification P)
+        {
+
         }
 
     }
