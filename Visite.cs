@@ -10,6 +10,7 @@ namespace _projet_hopital
     {
         public int Id { get; set; }
         public int IdPatient { get; set; }
+        public int IdMedecin { get; set; }
         public string NomMedecin { get; set; }
         public int CoutVisite { get; set; }
         public DateTime DateVisite { get; set; }
@@ -20,12 +21,14 @@ namespace _projet_hopital
 
         }
 
-        public Visite(int idPatient, string nomMedecin, DateTime dateVisite, int numSalle)
+        public Visite(int id, DateTime dateVisite, string nomMedecin, int idPatient, int idMedecin, int coutVisite)
         {
-            IdPatient = idPatient;
-            NomMedecin = nomMedecin;
+            Id = id;
             DateVisite = dateVisite;
-            NumSalle = numSalle;
+            NomMedecin = nomMedecin;
+            IdPatient = idPatient;
+            IdMedecin = idMedecin;
+            CoutVisite = coutVisite;
         }
 
         public override string ToString()

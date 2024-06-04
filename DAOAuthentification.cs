@@ -110,6 +110,36 @@ namespace _projet_hopital
             command.ExecuteNonQuery();
             connection.Close();
         }
+
+        public Authentification GetAuthentificationByCredentials(string login, string password)
+        {
+            Authentification authentification = null;
+
+            connection.Open();
+
+            SqlCommand command = new SqlCommand("SELECT * FROM authentification WHERE login = @login AND password = @password", connection);
+            command.Parameters.AddWithValue("@login", login);
+            command.Parameters.AddWithValue("@password", password);
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                authentification = new Authentification
+                {
+                    Login = (string)reader["login"],
+                    Password = (string)reader["password"],
+                    Nom = (string)reader["nom"],
+                    Metier = (int)reader["metier"]
+                };
+            }
+
+            reader.Close();
+            connection.Close();
+
+            return authentification;
+        }
+
     }
 }
 

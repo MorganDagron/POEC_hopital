@@ -4,23 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace _projet_hopital
 {
     class Program
     {
         static void Main(string[] args)
         {
-            //AddPatientToBdd();
             List<Patient> fileAttente = new List<Patient>();
             AffichageLogin(fileAttente);
-
-            //TestAffectationSalle1Puis2();
         }
 
         static void AffichageLogin(List<Patient> fileAttente)
         {
             Authentification personne = new Authentification();
-            
+
             Salle s1 = new Salle(1);
             Salle s2 = new Salle(2);
             Hopital hopital = Hopital.Instance;
@@ -44,7 +42,7 @@ namespace _projet_hopital
                 }
                 else
                 {
-                    Console.WriteLine("Appuyer sur n'importe quelle touche pour réessayer de vous connecter ou 'Q' pour quitter");
+                    Console.WriteLine("Appuyez sur n'importe quelle touche pour réessayer de vous connecter ou 'Q' pour quitter");
                     string quitter = Console.ReadLine();
                     if (quitter.ToLower() == "q")
                     {
@@ -56,7 +54,6 @@ namespace _projet_hopital
 
         static void AffichageMenuPrincipal(Authentification P, List<Patient> fileAttente)
         {
-
             if (P.Metier == 0)
             {
                 Console.WriteLine($"Bonjour Secrétaire {P.Nom}");
@@ -70,10 +67,9 @@ namespace _projet_hopital
             else
             {
                 Console.WriteLine($"Bonjour Admin {P.Nom}");
-                Console.WriteLine("Menu à venir");
+                choixMenuAdmin();
             }
         }
-
 
         public static void choixMenuSecretaire(Authentification P, List<Patient> fileAttente)
         {
@@ -81,7 +77,7 @@ namespace _projet_hopital
             while (!quitter)
             {
                 Console.WriteLine("\n\n------------------------");
-                Console.WriteLine($"Interface Secrétaire - Tapez le n° correpondant à votre choix");
+                Console.WriteLine($"Interface Secrétaire - Tapez le n° correspondant à votre choix");
                 Console.WriteLine("1. Ajouter un patient à la file d'attente");
                 Console.WriteLine("2. Afficher la file d'attente");
                 Console.WriteLine("3. Afficher le prochain patient de la file");
@@ -105,12 +101,11 @@ namespace _projet_hopital
                         AffichageLogin(fileAttente);
                         break;
                     default:
-                        Console.WriteLine("Veuillez selectionner un n° présent dans la liste");
+                        Console.WriteLine("Veuillez sélectionner un n° présent dans la liste");
                         break;
                 }
             }
         }
-
 
         public static void choixMenuMedecin(Authentification P, List<Patient> fileAttente)
         {
@@ -120,7 +115,7 @@ namespace _projet_hopital
             while (!quitter)
             {
                 Console.WriteLine("\n\n------------------------"); ;
-                Console.WriteLine($"Interface Medecin - Choix de la section via n° correspondant");
+                Console.WriteLine($"Interface Médecin - Choix de la section via n° correspondant");
                 Console.WriteLine("1. Ajouter une nouvelle visite");
                 Console.WriteLine("2. Afficher les patients en attente");
                 Console.WriteLine("3. Sauvegarder les visites en base de données");
@@ -134,7 +129,7 @@ namespace _projet_hopital
                         if (fileAttente.Any())
                             AfficherPatient(fileAttente.Last(), fileAttente, P, visites);
                         else
-                            Console.WriteLine("il n'y a personne dans la file d'attente");
+                            Console.WriteLine("Il n'y a personne dans la file d'attente");
                         break;
                     case 2:
                         AfficherPatientsEnAttente(fileAttente);
@@ -148,173 +143,235 @@ namespace _projet_hopital
                         AffichageLogin(fileAttente);
                         break;
                     default:
-                        Console.WriteLine("Veuillez selectionner un n° présent dans la liste");
+                        Console.WriteLine("Veuillez sélectionner un n° présent dans la liste");
                         break;
                 }
 
             }
+        }
 
+        public static void choixMenuAdmin()
+        {
+            bool quitter = false;
+            DAOPatient dao = new DAOPatient();
 
+            while (!quitter)
+            {
+                Console.WriteLine("\n\n------------------------");
+                Console.WriteLine("Interface Admin - Tapez le n° correspondant à votre choix");
+                Console.WriteLine("1. Ajouter un nouveau patient");
+                Console.WriteLine("2. Supprimer un patient selon son ID");
+                Console.WriteLine("3. Modifier les informations d'un patient");
+                Console.WriteLine("4. Afficher la liste de tous les patients");
+                Console.WriteLine("5. Afficher un patient selon son ID");
+                Console.WriteLine("6. Déconnexion");
+                Console.WriteLine("------------------------");
+                int choixUtilisateur = Convert.ToInt32(Console.ReadLine());
+
+                switch (choixUtilisateur)
+                {
+                    case 1:
+                        AjouterNouveauPatient(dao);
+                        break;
+                    case 2:
+                        SupprimerPatient(dao);
+                        break;
+                    case 3:
+                        ModifierPatient(dao);
+                        break;
+                    case 4:
+                        AfficherTousLesPatients(dao);
+                        break;
+                    case 5:
+                        AfficherPatientParId(dao);
+                        break;
+                    case 6:
+                        quitter = true;
+                        break;
+                    default:
+                        Console.WriteLine("Veuillez sélectionner un n° présent dans la liste");
+                        break;
+                }
+            }
+        }
+
+        private static void AjouterNouveauPatient(DAOPatient dao)
+        {
+            Console.WriteLine("Entrez l'ID du patient:");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Entrez le nom du patient:");
+            string nom = Console.ReadLine();
+            Console.WriteLine("Entrez le prénom du patient:");
+            string prenom = Console.ReadLine();
+            Console.WriteLine("Entrez l'âge du patient:");
+            int age = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Entrez l'adresse du patient:");
+            string adresse = Console.ReadLine();
+            Console.WriteLine("Entrez le téléphone du patient:");
+            string telephone = Console.ReadLine();
+
+            Patient patient = new Patient(id, nom, prenom, age, adresse, telephone);
+            dao.InsertPatient(patient);
+            Console.WriteLine("Patient ajouté avec succès.");
+        }
+
+        private static void SupprimerPatient(DAOPatient dao)
+        {
+            Console.WriteLine("Entrez l'ID du patient à supprimer:");
+            int id = Convert.ToInt32(Console.ReadLine());
+            dao.DeletePatient(id);
+            Console.WriteLine("Patient supprimé avec succès.");
+        }
+
+        private static void ModifierPatient(DAOPatient dao)
+        {
+            Console.WriteLine("Entrez l'ID du patient à modifier:");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Patient patient = dao.GetPatientById(id);
+            if (patient == null)
+            {
+                Console.WriteLine("Patient non trouvé.");
+                return;
+            }
+
+            Console.WriteLine("Entrez le nouveau nom du patient (actuel: " + patient.Nom + "):");
+            patient.Nom = Console.ReadLine();
+            Console.WriteLine("Entrez le nouveau prénom du patient (actuel: " + patient.Prenom + "):");
+            patient.Prenom = Console.ReadLine();
+            Console.WriteLine("Entrez le nouvel âge du patient (actuel: " + patient.Age + "):");
+            patient.Age = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Entrez la nouvelle adresse du patient (actuel: " + patient.Adresse + "):");
+            patient.Adresse = Console.ReadLine();
+            Console.WriteLine("Entrez le nouveau téléphone du patient (actuel: " + patient.Telephone + "):");
+            patient.Telephone = Console.ReadLine();
+
+            dao.UpdatePatient(patient);
+            Console.WriteLine("Patient modifié avec succès.");
+        }
+
+        private static void AfficherTousLesPatients(DAOPatient dao)
+        {
+            List<Patient> patients = dao.GetAllPatients();
+            foreach (var patient in patients)
+            {
+                Console.WriteLine(patient.ToString());
+            }
+        }
+
+        private static void AfficherPatientParId(DAOPatient dao)
+        {
+            Console.WriteLine("Entrez l'ID du patient à afficher:");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Patient patient = dao.GetPatientById(id);
+            if (patient != null)
+            {
+                Console.WriteLine(patient.ToString());
+            }
+            else
+            {
+                Console.WriteLine("Patient non trouvé.");
+            }
         }
 
         private static void AfficherPatientsEnAttente(List<Patient> fileAttente)
         {
             int cpt = 1;
-            Console.WriteLine("\n\nPatients présents dans la file d'attente\n");
-            if (fileAttente != null)
+            Console.WriteLine("\n\nPatients présents dans la file d'attente:");
+            foreach (Patient p in fileAttente)
             {
-                foreach (var patient in fileAttente)
-                {
-                    Console.WriteLine("Position " + cpt);
-                    Console.WriteLine(patient.ToString() + "\n");
-                    cpt++;
-                }
+                Console.WriteLine("Patient n°" + cpt);
+                Console.WriteLine(p.ToString());
+                cpt++;
             }
-        }
-
-        private static void AfficherPatient(Patient patient, List<Patient> fileAttente, Authentification p, List<Visite> visites)
-        {
-            DAOVisite dao = new DAOVisite();
-            patient.AffecteSalle();
-            Console.WriteLine(patient.ToString());
-            //Ajouté la patient à la la liste des visites
-            visites.Add(new Visite(patient.Id, p.Nom, DateTime.Now, patient.NumSalle));
-            //Si la liste est supérieur ou égal à 5 alors envoyé en bdd automatiquement
-            if (visites.Count >= 5)
-                foreach (Visite v in visites)
-                    dao.InsertVisite(v);
-            //supprimer patient de la file d'attente
-            fileAttente.Remove(patient);
-
         }
 
         private static void AfficherProchainPatient(List<Patient> fileAttente)
         {
-            Console.WriteLine("Prochaine personne en consultation :");
-            if (fileAttente[0] != null)
+            if (fileAttente.Any())
             {
-                Console.WriteLine(fileAttente[0].ToString());
-            }
-        }
-
-
-        static Authentification VerificationLogin(string nom, string password)
-        {
-            DAOAuthentification dao = new DAOAuthentification();
-            Authentification personneTemp = new Authentification();
-
-            if (dao.GetAuthentification(nom, password) != null)
-            {
-                personneTemp = dao.GetAuthentification(nom, password);
-                Console.WriteLine("Identifiant ok");
+                Patient p = fileAttente.Last();
+                Console.WriteLine("\nProchain patient de la file d'attente:");
+                Console.WriteLine(p.ToString());
             }
             else
             {
-                Console.WriteLine("Identifiant non reconnu");
+                Console.WriteLine("Il n'y a pas de patients dans la file d'attente.");
             }
-
-            return personneTemp;
         }
 
-        private static void TestAffectationSalle1Puis2()
+        private static void AfficherPatient(Patient p, List<Patient> fileAttente, Authentification P, List<Visite> visites)
         {
-            DAOPatient dao = new DAOPatient();
-            Salle s1 = new Salle(1);
-            Salle s2 = new Salle(2);
-            Hopital hopital = Hopital.Instance;
-            hopital.AddSalle(s1);
-            hopital.AddSalle(s2);
+            Console.WriteLine("\n\nDétail du patient:");
+            Console.WriteLine(p.ToString());
+            fileAttente.Remove(p);
 
-            Patient p1 = dao.GetPatientById(1);
-            Patient p2 = dao.GetPatientById(2);
-
-            Console.WriteLine("----------TEST1 → 2 salles ouvertes----------");
-            AffecteSalle(p1, p2);
-            Console.WriteLine("----------TEST2 → 1 salle ouverte----------");
-            s1.EstOuvert = false;
-            AffecteSalle(p1, p2);
-            Console.WriteLine("----------TEST3 → 0 salle ouverte----------");
-            hopital.DeleteSalle(s2);
-        }
-        private static void AffecteSalle(Patient p1, Patient p2)
-        {
-            p1.AffecteSalle();
-            p2.AffecteSalle();
-        }
-
-        private static void AddPatientToBdd()
-        {
-            // Création de 5 patients
-            Patient patient1 = new Patient(1, "DUPONT", "Pierre", 30, "12 rue de la Paix", "06 12 34 56 78");
-            Patient patient2 = new Patient(2, "MARTIN", "Marie", 25, "45 avenue de la République", "07 89 01 23 45");
-            Patient patient3 = new Patient(3, "LEFEBVRE", "Jean", 40, "78 rue de la Liberté", "05 67 89 01 23");
-            Patient patient4 = new Patient(4, "DURAND", "Sophie", 28, "34 rue de la Paix", "06 78 90 12 34");
-            Patient patient5 = new Patient(5, "ROUSSEAU", "François", 35, "90 avenue de la République", "07 12 34 56 78");
-
-            // Insertion des patients dans la base de données à l'aide du DAO
-            DAOPatient dao = new DAOPatient();
-            dao.InsertPatient(patient1);
-            dao.InsertPatient(patient2);
-            dao.InsertPatient(patient3);
-            dao.InsertPatient(patient4);
-            dao.InsertPatient(patient5);
-        }
-
-        public static void AjoutPatientFileAttente(List<Patient> fileAttente)
-        {
-            bool AjoutPatientOK = true;
-            Console.WriteLine("Entrez l'ID du patient");
-            int idPatient = Convert.ToInt32(Console.ReadLine());
-            DAOPatient dao = new DAOPatient();
-
-
-            foreach (var patient in fileAttente)
+            Console.WriteLine("Souhaitez-vous créer une visite pour ce patient ? (o/n)");
+            if (Console.ReadLine().ToLower() == "o")
             {
-                if (patient.Id == idPatient)
-                {
-                    AjoutPatientOK = false;
-                }
+                AjoutVisite(p, visites, P);
             }
-
-            if (AjoutPatientOK)
-            {
-                if (dao.GetPatientById(idPatient) != null)
-                {
-                    fileAttente.Add(dao.GetPatientById(idPatient));
-                    Console.WriteLine("Patient connu dans l'hopital, ajouté à la liste d'attente");
-                    Console.WriteLine(dao.GetPatientById(idPatient).ToString());
-                }
-
-                else
-                {
-                    Console.WriteLine("Patient non connu dans l'hopital, veuillez renseigner ses informations personelles");
-                    Console.WriteLine("Saisissez son nom");
-                    string newNom = Console.ReadLine();
-
-                    Console.WriteLine("Saisissez son prénom");
-                    string newPrenom = Console.ReadLine();
-
-                    Console.WriteLine("Saisissez son âge");
-                    int newAge = Convert.ToInt32(Console.ReadLine());
-
-                    Console.WriteLine("Saisissez son adresse");
-                    string newAdresse = Console.ReadLine();
-
-                    Console.WriteLine("Saisissez son n° de téléphone");
-                    string newTel = Console.ReadLine();
-
-                    Patient nouveauPatient = new Patient(idPatient, newNom, newPrenom, newAge, newAdresse, newTel);
-                    dao.InsertPatient(nouveauPatient);
-                    fileAttente.Add(nouveauPatient);
-                }
-            }
-            else
-            {
-                Console.WriteLine("patient déja présent dans la file d'attente");
-            }
-
         }
 
+        private static void AjoutPatientFileAttente(List<Patient> fileAttente)
+        {
+            Console.WriteLine("Veuillez entrer les informations suivantes pour ajouter un patient à la file d'attente:");
+            Console.WriteLine("ID:");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Nom:");
+            string nom = Console.ReadLine();
+            Console.WriteLine("Prénom:");
+            string prenom = Console.ReadLine();
+            Console.WriteLine("Âge:");
+            int age = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Adresse:");
+            string adresse = Console.ReadLine();
+            Console.WriteLine("Téléphone:");
+            string telephone = Console.ReadLine();
+
+            Patient nouveauPatient = new Patient(id, nom, prenom, age, adresse, telephone);
+            fileAttente.Add(nouveauPatient);
+            Console.WriteLine("Patient ajouté à la file d'attente.");
+        }
+
+        private static void AjoutVisite(Patient patient, List<Visite> visites, Authentification P)
+        {
+            Console.WriteLine("Date de la visite (jj/mm/aaaa) :");
+            DateTime dateVisite = DateTime.Parse(Console.ReadLine());
+            Console.WriteLine("Description de la visite :");
+            string description = Console.ReadLine();
+
+            Console.WriteLine("Coût de la visite :");
+            int coutVisite = int.Parse(Console.ReadLine()); // Lire le coût de la visite
+
+            int nouvelleId = visites.Count + 1; // Créer un nouvel ID pour la visite
+
+            Visite nouvelleVisite = new Visite
+            {
+                Id = nouvelleId,
+                DateVisite = dateVisite,
+                NomMedecin = P.Nom, // Utiliser le nom de l'authentification comme nom du médecin
+                IdPatient = patient.Id,
+                CoutVisite = coutVisite,
+                NumSalle = patient.NumSalle // Utiliser le numéro de la salle du patient
+            };
+
+            visites.Add(nouvelleVisite);
+            Console.WriteLine("Visite ajoutée avec succès.");
+        }
+
+
+
+        private static Authentification VerificationLogin(string nomLogin, string passwordLogin)
+        {
+            DAOAuthentification daoAuth = new DAOAuthentification();
+            Authentification P = daoAuth.GetAuthentificationByCredentials(nomLogin, passwordLogin);
+
+            if (P != null)
+            {
+                return P;
+            }
+            return new Authentification();
+        }
     }
 }
 
