@@ -79,7 +79,7 @@ namespace _projet_hopital
                     Console.WriteLine("1. Ajouter une nouvelle visite");
                     Console.WriteLine("2. Afficher les patients en attente");
                     Console.WriteLine("3. Sauvegarder les visites en base de données");
-                    Console.WriteLine("4. Déconnexion du menu visite");
+                    Console.WriteLine("4. Déconnexion");
 
                     string choix = Console.ReadLine();
 
