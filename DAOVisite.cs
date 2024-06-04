@@ -81,51 +81,6 @@ namespace _projet_hopital
             connection.Close();
         }
 
-        public void UpdateVisite(Visite visite)
-        {
-            connection.Open();
-
-            SqlCommand command = new SqlCommand("UPDATE visites SET idpatient = @idpatient, date = @date, medecin = @medecin, num_salle = @num_salle WHERE id = @id", connection);
-            command.Parameters.AddWithValue("@idpatient", visite.IdPatient);
-            command.Parameters.AddWithValue("@date", visite.DateVisite);
-            command.Parameters.AddWithValue("@medecin", visite.NomMedecin);
-            command.Parameters.AddWithValue("@num_salle", visite.NumSalle);
-            command.Parameters.AddWithValue("@id", visite.Id);
-
-            command.ExecuteNonQuery();
-            connection.Close();
-        }
-
-        public void DeleteVisite(int id)
-        {
-            connection.Open();
-
-            SqlCommand command = new SqlCommand("DELETE FROM visites WHERE id = @id", connection);
-            command.Parameters.AddWithValue("@id", id);
-
-            command.ExecuteNonQuery();
-            connection.Close();
-        }
-
-        public void ChangePatientInSalle(int nouvelleSalle, int nouveauPatient, int ancienneSalle, int ancienPatient)
-        {
-            connection.Open();
-
-            // Mettre à jour la visite de l'ancien patient pour changer la salle
-            SqlCommand command = new SqlCommand("UPDATE visites SET num_salle = @nouvelleSalle WHERE idpatient = @ancienPatient", connection);
-            command.Parameters.AddWithValue("@nouvelleSalle", nouvelleSalle);
-            command.Parameters.AddWithValue("@ancienPatient", ancienPatient);
-            command.ExecuteNonQuery();
-
-            // Mettre à jour la visite du nouveau patient pour le faire entrer dans la nouvelle salle
-            command = new SqlCommand("UPDATE visites SET num_salle = @nouvelleSalle WHERE idpatient = @nouveauPatient", connection);
-            command.Parameters.AddWithValue("@nouvelleSalle", nouvelleSalle);
-            command.Parameters.AddWithValue("@nouveauPatient", nouveauPatient);
-            command.ExecuteNonQuery();
-
-            connection.Close();
-        }
-
         public List<Patient> GetWaitingPatients()
         {
             List<Patient> patients = new List<Patient>();
