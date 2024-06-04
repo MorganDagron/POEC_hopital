@@ -10,16 +10,15 @@ namespace _projet_hopital
     {
         static void Main(string[] args)
         {
-            //AffichageLogin();
+            AffichageLogin();
             //TestCoBDD();
             TestAffectationSalle1Puis2();
         }
 
         static void AffichageLogin()
         {
+            Authentification personne = new Authentification();
             bool accesAccorde = false;
-
-
 
             while (accesAccorde == false)
             {
@@ -28,45 +27,50 @@ namespace _projet_hopital
                 string nomLogin = Console.ReadLine();
                 Console.WriteLine("Password :");
                 string passwordLogin = Console.ReadLine();
-                VerificationLogin(nomLogin, passwordLogin);
+                personne = VerificationLogin(nomLogin, passwordLogin);
+                Console.WriteLine(personne.ToString());
 
-                //Authentification personne = new Authentification(nomLogin, passwordLogin, )
-
-                if (true)
+                if (personne.Metier != null)
                 {
                     accesAccorde = true;
-                    Console.WriteLine("Login OK");
-                    //AffichageMenuPrincipal();
+                    AffichageMenuPrincipal(personne);
                 }
                 else
                 {
-                    Console.WriteLine("Identifiants non reconnus");
-                    Console.WriteLine("Veuillez réessayer");
+                    Console.WriteLine("Quitter la console ? O/N");
+                    string quitter = Console.ReadLine();
+                    if (quitter.ToLower() == "o")
+                    {
+                        break;
+                    }
                 }
 
             }
         }
 
-        //static void AffichageMenuPrincipal()
-        //{
-        //    Console.WriteLine($"Bonjour {nomLogin.Metier} {nom}");
-        //    if ()
-        //    {
-        //        Console.WriteLine("Interface {metier}");
-        //        Console.WriteLine("1. Accueillir un nouveau patient");
-        //        Console.WriteLine("2. Afficher la file d'attente");
-        //        Console.WriteLine("3. Sauvegarder la liste des patients du jour");
-        //        Console.WriteLine("4. Déconnexion");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Interface {metier} - Choix de la section via n° correpondant");
-        //        Console.WriteLine("1. Ajouter un patient à la file d'attente");
-        //        Console.WriteLine("2. Afficher la file d'attente");
-        //        Console.WriteLine("3. Afficher le prochain patient de la file");
-        //        Console.WriteLine("4. Déconnexion");
-        //    }
-        //}
+        static void AffichageMenuPrincipal(Authentification P)
+        {
+            Console.WriteLine($"Bonjour {P.Metier} {P.Nom}");
+            if (P.Metier == 0)
+            {
+                Console.WriteLine($"Interface {P.Metier}");
+                Console.WriteLine("1. Accueillir un nouveau patient");
+                Console.WriteLine("2. Afficher la file d'attente");
+                Console.WriteLine("3. Sauvegarder la liste des patients du jour");
+                Console.WriteLine("4. Déconnexion");
+            }
+            else if (P.Metier >= 1)
+            {
+                Console.WriteLine($"Interface {P.Metier} - Choix de la section via n° correpondant");
+                Console.WriteLine("1. Ajouter un patient à la file d'attente");
+                Console.WriteLine("2. Afficher la file d'attente");
+                Console.WriteLine("3. Afficher le prochain patient de la file");
+                Console.WriteLine("4. Déconnexion");
+            } else
+            {
+                Console.WriteLine("Menu à venir");
+            }
+        }
 
         private static void TestCoBDD()
         {
@@ -76,17 +80,22 @@ namespace _projet_hopital
                 Console.WriteLine(a.ToString());
         }
 
-        static void VerificationLogin(string nom, string password)
+        static Authentification VerificationLogin(string nom, string password)
         {
             DAOAuthentification dao = new DAOAuthentification();
+            Authentification personneTemp = new Authentification();
+
             if (dao.GetAuthentification(nom, password) != null)
             {
+                personneTemp = dao.GetAuthentification(nom, password);
                 Console.WriteLine("Identifiant ok");
             }
             else
             {
                 Console.WriteLine("Identifiant non reconnu");
             }
+
+            return personneTemp;
         }
 
 
