@@ -11,15 +11,21 @@ namespace _projet_hopital
         static void Main(string[] args)
         {
             //AddPatientToBdd();
-            AffichageLogin();
+            List<Patient> fileAttente = new List<Patient>();
+            AffichageLogin(fileAttente);
 
             //TestAffectationSalle1Puis2();
-            TestAffectationSalle1Puis2();
         }
 
-        static void AffichageLogin()
+        static void AffichageLogin(List<Patient> fileAttente)
         {
             Authentification personne = new Authentification();
+            
+            Salle s1 = new Salle(1);
+            Salle s2 = new Salle(2);
+            Hopital hopital = Hopital.Instance;
+            hopital.AddSalle(s1);
+            hopital.AddSalle(s2);
             bool accesAccorde = false;
 
             while (!accesAccorde)
@@ -34,7 +40,7 @@ namespace _projet_hopital
                 if (personne.Login != null)
                 {
                     accesAccorde = true;
-                    AffichageMenuPrincipal(personne);
+                    AffichageMenuPrincipal(personne, fileAttente);
                 }
                 else
                 {
@@ -48,14 +54,8 @@ namespace _projet_hopital
             }
         }
 
-        static void AffichageMenuPrincipal(Authentification P)
+        static void AffichageMenuPrincipal(Authentification P, List<Patient> fileAttente)
         {
-            List<Patient> fileAttente = new List<Patient>();
-            Salle s1 = new Salle(1);
-            Salle s2 = new Salle(2);
-            Hopital hopital = Hopital.Instance;
-            hopital.AddSalle(s1);
-            hopital.AddSalle(s2);
 
             if (P.Metier == 0)
             {
@@ -102,6 +102,7 @@ namespace _projet_hopital
                         break;
                     case 4:
                         quitter = true;
+                        AffichageLogin(fileAttente);
                         break;
                     default:
                         Console.WriteLine("Veuillez selectionner un n° présent dans la liste");
@@ -119,7 +120,7 @@ namespace _projet_hopital
             while (!quitter)
             {
                 Console.WriteLine("\n\n------------------------"); ;
-                Console.WriteLine($"Interface {P.Metier} - Choix de la section via n° correspondant");
+                Console.WriteLine($"Interface Medecin - Choix de la section via n° correspondant");
                 Console.WriteLine("1. Ajouter une nouvelle visite");
                 Console.WriteLine("2. Afficher les patients en attente");
                 Console.WriteLine("3. Sauvegarder les visites en base de données");
@@ -130,7 +131,10 @@ namespace _projet_hopital
                 switch (choixUtilisateur)
                 {
                     case 1:
-                        AfficherPatient(fileAttente.Last(), fileAttente, P, visites);
+                        if (fileAttente.Any())
+                            AfficherPatient(fileAttente.Last(), fileAttente, P, visites);
+                        else
+                            Console.WriteLine("il n'y a personne dans la file d'attente");
                         break;
                     case 2:
                         AfficherPatientsEnAttente(fileAttente);
@@ -140,10 +144,11 @@ namespace _projet_hopital
                             dao.InsertVisite(v);
                         break;
                     case 4:
-                        quitter = false;
+                        quitter = true;
+                        AffichageLogin(fileAttente);
                         break;
                     default:
-                        Console.WriteLine("choix invalide. veuillez réessayer.");
+                        Console.WriteLine("Veuillez selectionner un n° présent dans la liste");
                         break;
                 }
 
