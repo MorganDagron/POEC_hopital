@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _projet_hopital
 {
@@ -180,6 +177,13 @@ namespace _projet_hopital
             connection.Close();
         }
 
+        public void EnregistrerVisitesEnBaseDeDonnees()
+        {
+            List<Visite> visites = GetAllVisites(); // Obtenez la liste des visites à partir de votre source de données
+            SaveVisitsToDatabase(visites);
+            Console.WriteLine("Visites enregistrées en base de données.");
+        }
+
         public void QuitMenu()
         {
             bool quit = false;
@@ -351,13 +355,6 @@ namespace _projet_hopital
             {
                 Console.WriteLine(patient.ToString());
             }
-        }
-
-        private void EnregistrerVisitesEnBaseDeDonnees()
-        {
-            List<Visite> visites = GetAllVisites();
-            SaveVisitsToDatabase(visites);
-            Console.WriteLine("Visites enregistrées en base de données.");
         }
     }
 }
