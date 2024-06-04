@@ -10,20 +10,12 @@ namespace _projet_hopital
     {
         static void Main(string[] args)
         {
-            AddPatientToBdd();
+            //AddPatientToBdd();
             AffichageLogin();
             //TestCoBDD();
             //TestAffectationSalle1Puis2();
-<<<<<<< HEAD
             // Création d'une instance de DAOVisite
             DAOVisite daoVisite = new DAOVisite();
-
-            // Appel de la méthode QuitMenu pour gérer les opérations de la classe Visite
-            //daoVisite.QuitMenu();
-=======
-
-            AddPatientToBdd();
->>>>>>> 496ba9c74f57c1def95a2de686c089484a8c01c6
             TestAffectationSalle1Puis2();
         }
 
