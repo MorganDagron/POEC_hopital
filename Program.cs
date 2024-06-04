@@ -77,13 +77,9 @@ namespace _projet_hopital
                 {
                     Console.WriteLine($"Interface {P.Metier} - Choix de la section via n° correspondant");
                     Console.WriteLine("1. Ajouter une nouvelle visite");
-                    Console.WriteLine("2. Mettre à jour une visite");
-                    Console.WriteLine("3. Supprimer une visite");
-                    Console.WriteLine("4. Afficher les visites");
-                    Console.WriteLine("5. Changer un patient de salle");
-                    Console.WriteLine("6. Afficher les patients en attente");
-                    Console.WriteLine("7. Sauvegarder les visites en base de données");
-                    Console.WriteLine("8. Déconnexion");
+                    Console.WriteLine("2. Afficher les patients en attente");
+                    Console.WriteLine("3. Sauvegarder les visites en base de données");
+                    Console.WriteLine("4. Déconnexion du menu visite");
 
                     string choix = Console.ReadLine();
 
@@ -93,24 +89,12 @@ namespace _projet_hopital
                             AjouterNouvelleVisite(daoVisite);
                             break;
                         case "2":
-                            MettreAJourVisite(daoVisite);
-                            break;
-                        case "3":
-                            SupprimerVisite(daoVisite);
-                            break;
-                        case "4":
-                            AfficherVisites(daoVisite);
-                            break;
-                        case "5":
-                            ChangerPatientDansSalle(daoVisite);
-                            break;
-                        case "6":
                             AfficherPatientsEnAttente(daoVisite);
                             break;
-                        case "7":
+                        case "3":
                             EnregistrerVisitesEnBaseDeDonnees(daoVisite);
                             break;
-                        case "8":
+                        case "4":
                             continuer = false;
                             break;
                         default:
@@ -149,66 +133,6 @@ namespace _projet_hopital
 
             daoVisite.InsertVisite(nouvelleVisite);
             Console.WriteLine("Nouvelle visite ajoutée.");
-        }
-
-        private static void MettreAJourVisite(DAOVisite daoVisite)
-        {
-            Console.Write("Entrez l'ID de la visite à mettre à jour : ");
-            int id = int.Parse(Console.ReadLine());
-
-            Visite visite = daoVisite.GetVisiteById(id);
-            if (visite != null)
-            {
-                Console.Write("Entrez le nouvel ID du patient (actuel: " + visite.IdPatient + ") : ");
-                visite.IdPatient = int.Parse(Console.ReadLine());
-                Console.Write("Entrez le nouveau nom du médecin (actuel: " + visite.NomMedecin + ") : ");
-                visite.NomMedecin = Console.ReadLine();
-                Console.Write("Entrez le nouveau coût de la visite (actuel: " + visite.CoutVisite + ") : ");
-                visite.CoutVisite = int.Parse(Console.ReadLine());
-                Console.Write("Entrez la nouvelle date de la visite (actuel: " + visite.DateVisite.ToString("yyyy-MM-dd") + ") : ");
-                visite.DateVisite = DateTime.Parse(Console.ReadLine());
-                Console.Write("Entrez le nouveau numéro de la salle (actuel: " + visite.NumSalle + ") : ");
-                visite.NumSalle = int.Parse(Console.ReadLine());
-
-                daoVisite.UpdateVisite(visite);
-                Console.WriteLine("Visite mise à jour.");
-            }
-            else
-            {
-                Console.WriteLine("Visite non trouvée.");
-            }
-        }
-
-        private static void SupprimerVisite(DAOVisite daoVisite)
-        {
-            Console.Write("Entrez l'ID de la visite à supprimer : ");
-            int id = int.Parse(Console.ReadLine());
-            daoVisite.DeleteVisite(id);
-            Console.WriteLine("Visite supprimée.");
-        }
-
-        private static void AfficherVisites(DAOVisite daoVisite)
-        {
-            List<Visite> visites = daoVisite.GetAllVisites();
-            foreach (var visite in visites)
-            {
-                Console.WriteLine(visite.ToString());
-            }
-        }
-
-        private static void ChangerPatientDansSalle(DAOVisite daoVisite)
-        {
-            Console.Write("Entrez le numéro de la nouvelle salle : ");
-            int nouvelleSalle = int.Parse(Console.ReadLine());
-            Console.Write("Entrez l'ID du nouveau patient : ");
-            int nouveauPatient = int.Parse(Console.ReadLine());
-            Console.Write("Entrez le numéro de l'ancienne salle : ");
-            int ancienneSalle = int.Parse(Console.ReadLine());
-            Console.Write("Entrez l'ID de l'ancien patient : ");
-            int ancienPatient = int.Parse(Console.ReadLine());
-
-            daoVisite.ChangePatientInSalle(nouvelleSalle, nouveauPatient, ancienneSalle, ancienPatient);
-            Console.WriteLine("Changement de patient dans la salle effectué.");
         }
 
         private static void AfficherPatientsEnAttente(DAOVisite daoVisite)
