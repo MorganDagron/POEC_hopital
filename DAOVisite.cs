@@ -81,53 +81,34 @@ namespace _projet_hopital
             connection.Close();
         }
 
-        public List<Patient> GetWaitingPatients()
-        {
-            List<Patient> patients = new List<Patient>();
+        //public List<Patient> GetWaitingPatients()
+        //{
+        //    List<Patient> patients = new List<Patient>();
 
-            connection.Open();
+        //    connection.Open();
 
-            SqlCommand command = new SqlCommand("SELECT * FROM patients WHERE id IN (SELECT idpatient FROM visites WHERE num_salle IS NULL)", connection);
+        //    SqlCommand command = new SqlCommand("SELECT * FROM patients WHERE id IN (SELECT idpatient FROM visites WHERE num_salle IS NULL)", connection);
 
-            SqlDataReader reader = command.ExecuteReader();
+        //    SqlDataReader reader = command.ExecuteReader();
 
-            while (reader.Read())
-            {
-                Patient patient = new Patient
-                {
-                    Id = (int)reader["id"],
-                    Nom = (string)reader["nom"],
-                    Prenom = (string)reader["prenom"],
-                    Age = (int)reader["age"],
-                    Adresse = (string)reader["adresse"],
-                    Telephone = (string)reader["telephone"]
-                };
+        //    while (reader.Read())
+        //    {
+        //        Patient patient = new Patient
+        //        {
+        //            Id = (int)reader["id"],
+        //            Nom = (string)reader["nom"],
+        //            Prenom = (string)reader["prenom"],
+        //            Age = (int)reader["age"],
+        //            Adresse = (string)reader["adresse"],
+        //            Telephone = (string)reader["telephone"]
+        //        };
 
-                patients.Add(patient);
-            }
+        //        patients.Add(patient);
+        //    }
 
-            reader.Close();
-            connection.Close();
-            return patients;
-        }
-
-        public void SaveVisitsToDatabase(List<Visite> visites)
-        {
-            connection.Open();
-
-            foreach (Visite visite in visites)
-            {
-                SqlCommand command = new SqlCommand("INSERT INTO visites (idpatient, nom_medecin, cout_visite, date_visite, num_salle) VALUES (@idpatient, @nom_medecin, @cout_visite, @date_visite, @num_salle)", connection);
-                command.Parameters.AddWithValue("@idpatient", visite.IdPatient);
-                command.Parameters.AddWithValue("@nom_medecin", visite.NomMedecin);
-                command.Parameters.AddWithValue("@cout_visite", visite.CoutVisite);
-                command.Parameters.AddWithValue("@date_visite", visite.DateVisite);
-                command.Parameters.AddWithValue("@num_salle", visite.NumSalle);
-
-                command.ExecuteNonQuery();
-            }
-
-            connection.Close();
-        }
+        //    reader.Close();
+        //    connection.Close();
+        //    return patients;
+        //}
     }
 }

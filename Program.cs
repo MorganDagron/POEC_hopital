@@ -131,17 +131,17 @@ namespace _projet_hopital
             }
         }
 
-        private static void EnregistrerVisitesEnBaseDeDonnees(DAOVisite daoVisite)
-        {
-            // Obtenez la liste des visites à partir de la méthode GetAllVisites de daoVisite
-            List<Visite> visites = daoVisite.GetAllVisites();
+        //private static void EnregistrerVisitesEnBaseDeDonnees(DAOVisite daoVisite)
+        //{
+        //    // Obtenez la liste des visites à partir de la méthode GetAllVisites de daoVisite
+        //    List<Visite> visites = daoVisite.GetAllVisites();
 
-            // Enregistrez les visites dans la base de données
-            daoVisite.SaveVisitsToDatabase(visites);
+        //    // Enregistrez les visites dans la base de données
+        //    daoVisite.SaveVisitsToDatabase(visites);
 
-            // Affichez un message indiquant que les visites ont été enregistrées en base de données
-            Console.WriteLine("Visites enregistrées en base de données.");
-        }
+        //    // Affichez un message indiquant que les visites ont été enregistrées en base de données
+        //    Console.WriteLine("Visites enregistrées en base de données.");
+        //}
 
 
         static Authentification VerificationLogin(string nom, string password)
