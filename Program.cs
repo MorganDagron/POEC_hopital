@@ -177,10 +177,10 @@ namespace _projet_hopital
         private static void AfficherPatient(Patient patient, List<Patient> fileAttente, Authentification p, List<Visite> visites)
         {
             DAOVisite dao = new DAOVisite();
-            patient.AffecteSalle();
+            Console.WriteLine($"le patient suivant est affecté à la salle n° {p.Metier}.");
             Console.WriteLine(patient.ToString());
             //Ajouté la patient à la la liste des visites
-            visites.Add(new Visite(patient.Id, p.Nom, DateTime.Now, patient.NumSalle));
+            visites.Add(new Visite(patient.Id, p.Nom, DateTime.Now, p.Metier));
             //Si la liste est supérieur ou égal à 5 alors envoyé en bdd automatiquement
             if (visites.Count >= 5)
             {
