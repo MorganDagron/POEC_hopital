@@ -18,7 +18,7 @@ GO
 
 -- Création de la table visites
 CREATE TABLE visites (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY IDENTITY (1,1),
     idpatient INT NOT NULL,
     date DATETIME NOT NULL,
     medecin NVARCHAR(50) NOT NULL,
