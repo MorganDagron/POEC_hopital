@@ -14,12 +14,12 @@ namespace _projet_hopital
         }
 
         // Méthode pour ajouter ou mettre à jour une visite avec le temps d'attente
-        public void UpdateVisiteWithTempsAttente(int visiteId, TimeSpan tempsAttente)
+        public void UpdateVisiteWithTempsAttente(int visiteId, TimeSpan TempsAttente)
         {
             connection.Open();
 
             SqlCommand command = new SqlCommand("UPDATE visites SET temps_attente = @temps_attente WHERE id = @id", connection);
-            command.Parameters.AddWithValue("@temps_attente", tempsAttente);
+            command.Parameters.AddWithValue("@temps_attente", TempsAttente);
             command.Parameters.AddWithValue("@id", visiteId);
 
             command.ExecuteNonQuery();
