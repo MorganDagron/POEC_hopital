@@ -12,15 +12,16 @@ namespace _projet_hopital
         {
             //AddPatientToBdd();
             List<Patient> fileAttente = new List<Patient>();
-            AffichageLogin(fileAttente);
+            List<Visite> visites = new List<Visite>();
+            AffichageLogin(fileAttente, visites);
 
             //TestAffectationSalle1Puis2();
         }
 
-        static void AffichageLogin(List<Patient> fileAttente)
+        static void AffichageLogin(List<Patient> fileAttente, List<Visite> visites)
         {
             Authentification personne = new Authentification();
-            
+
             Salle s1 = new Salle(1);
             Salle s2 = new Salle(2);
             Hopital hopital = Hopital.Instance;
@@ -40,7 +41,7 @@ namespace _projet_hopital
                 if (personne.Login != null)
                 {
                     accesAccorde = true;
-                    AffichageMenuPrincipal(personne, fileAttente);
+                    AffichageMenuPrincipal(personne, fileAttente, visites);
                 }
                 else
                 {
@@ -54,18 +55,18 @@ namespace _projet_hopital
             }
         }
 
-        static void AffichageMenuPrincipal(Authentification P, List<Patient> fileAttente)
+        static void AffichageMenuPrincipal(Authentification P, List<Patient> fileAttente, List<Visite> visites)
         {
 
             if (P.Metier == 0)
             {
                 Console.WriteLine($"Bonjour Secrétaire {P.Nom}");
-                choixMenuSecretaire(P, fileAttente);
+                choixMenuSecretaire(P, fileAttente, visites);
             }
             else if (P.Metier >= 1)
             {
                 Console.WriteLine($"Bonjour Médecin {P.Nom}");
-                choixMenuMedecin(P, fileAttente);
+                choixMenuMedecin(P, fileAttente, visites);
             }
             else
             {
@@ -75,7 +76,7 @@ namespace _projet_hopital
         }
 
 
-        public static void choixMenuSecretaire(Authentification P, List<Patient> fileAttente)
+        public static void choixMenuSecretaire(Authentification P, List<Patient> fileAttente, List<Visite> visites)
         {
             bool quitter = false;
             while (!quitter)
@@ -102,7 +103,7 @@ namespace _projet_hopital
                         break;
                     case 4:
                         quitter = true;
-                        AffichageLogin(fileAttente);
+                        AffichageLogin(fileAttente, visites);
                         break;
                     default:
                         Console.WriteLine("Veuillez selectionner un n° présent dans la liste");
@@ -112,9 +113,8 @@ namespace _projet_hopital
         }
 
 
-        public static void choixMenuMedecin(Authentification P, List<Patient> fileAttente)
+        public static void choixMenuMedecin(Authentification P, List<Patient> fileAttente, List<Visite> visites)
         {
-            List<Visite> visites = new List<Visite>();
             DAOVisite dao = new DAOVisite();
             bool quitter = false;
             while (!quitter)
@@ -132,7 +132,7 @@ namespace _projet_hopital
                 {
                     case 1:
                         if (fileAttente.Any())
-                            AfficherPatient(fileAttente.Last(), fileAttente, P, visites);
+                            AfficherPatient(fileAttente.First(), fileAttente, P, visites);
                         else
                             Console.WriteLine("il n'y a personne dans la file d'attente");
                         break;
@@ -145,7 +145,7 @@ namespace _projet_hopital
                         break;
                     case 4:
                         quitter = true;
-                        AffichageLogin(fileAttente);
+                        AffichageLogin(fileAttente, visites);
                         break;
                     default:
                         Console.WriteLine("Veuillez selectionner un n° présent dans la liste");
