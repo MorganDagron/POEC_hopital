@@ -4,18 +4,36 @@ using System.Data.SqlClient;
 
 namespace _projet_hopital
 {
-    class DAOVisite
+    public class DAOVisite
     {
-        SqlConnection connection = new SqlConnection(ConnectionString.ConnexionBdd);
+        private readonly SqlConnection connection;
 
-        public List<Visite> GetAllVisites()
+        public DAOVisite()
+        {
+            connection = new SqlConnection(ConnectionString.ConnexionBdd);
+        }
+
+        // Méthode pour ajouter ou mettre à jour une visite avec le temps d'attente
+        public void UpdateVisiteWithTempsAttente(int visiteId, TimeSpan tempsAttente)
+        {
+            connection.Open();
+
+            SqlCommand command = new SqlCommand("UPDATE visites SET temps_attente = @temps_attente WHERE id = @id", connection);
+            command.Parameters.AddWithValue("@temps_attente", tempsAttente);
+            command.Parameters.AddWithValue("@id", visiteId);
+
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        // Méthode pour obtenir le nombre de visites par salle et médecin
+        public List<Visite> GetVisitesBySalleAndMedecin()
         {
             List<Visite> visites = new List<Visite>();
 
             connection.Open();
 
-            SqlCommand command = new SqlCommand("SELECT * FROM visites", connection);
-
+            SqlCommand command = new SqlCommand("SELECT * FROM visites ORDER BY num_salle, medecin", connection);
             SqlDataReader reader = command.ExecuteReader();
 
             while (reader.Read())
@@ -27,7 +45,8 @@ namespace _projet_hopital
                     NomMedecin = (string)reader["medecin"],
                     CoutVisite = (int)reader["cout_visite"],
                     DateVisite = (DateTime)reader["date"],
-                    NumSalle = (int)reader["num_salle"]
+                    NumSalle = (int)reader["num_salle"],
+                    TempsAttente = (TimeSpan)reader["temps_attente"]  // Ajouté
                 };
 
                 visites.Add(visite);
@@ -38,73 +57,34 @@ namespace _projet_hopital
             return visites;
         }
 
-        public Visite GetVisiteById(int id)
+        // Méthode pour obtenir le nombre de visites pour un médecin depuis le début
+        public int GetNombreVisitesDepuisDebut(int idMedecin)
         {
-            Visite visite = null;
-
             connection.Open();
 
-            SqlCommand command = new SqlCommand("SELECT * FROM visites WHERE id = @id", connection);
-            command.Parameters.AddWithValue("@id", id);
+            SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM visites WHERE idmedecin = @idmedecin", connection);
+            command.Parameters.AddWithValue("@idmedecin", idMedecin);
 
-            SqlDataReader reader = command.ExecuteReader();
+            int count = (int)command.ExecuteScalar();
 
-            if (reader.Read())
-            {
-                visite = new Visite
-                {
-                    Id = (int)reader["id"],
-                    IdPatient = (int)reader["idpatient"],
-                    NomMedecin = (string)reader["medecin"],
-                    CoutVisite = (int)reader["cout_visite"],
-                    DateVisite = (DateTime)reader["date"],
-                    NumSalle = (int)reader["num_salle"]
-                };
-            }
-
-            reader.Close();
             connection.Close();
-            return visite;
+            return count;
         }
 
-        public void InsertVisite(Visite visite)
+        // Méthode pour obtenir le nombre de visites pour un médecin entre deux dates
+        public int GetNombreVisitesEntreDates(int idMedecin, DateTime dateMin, DateTime dateMax)
         {
             connection.Open();
 
-            SqlCommand command = new SqlCommand("INSERT INTO visites (idpatient, date, medecin, num_salle) VALUES (@idpatient, @date, @medecin, @num_salle)", connection);
-            command.Parameters.AddWithValue("@idpatient", visite.IdPatient);
-            command.Parameters.AddWithValue("@date", visite.DateVisite);
-            command.Parameters.AddWithValue("@medecin", visite.NomMedecin);
-            command.Parameters.AddWithValue("@num_salle", visite.NumSalle);
+            SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM visites WHERE idmedecin = @idmedecin AND date BETWEEN @dateMin AND @dateMax", connection);
+            command.Parameters.AddWithValue("@idmedecin", idMedecin);
+            command.Parameters.AddWithValue("@dateMin", dateMin);
+            command.Parameters.AddWithValue("@dateMax", dateMax);
 
-            command.ExecuteNonQuery();
+            int count = (int)command.ExecuteScalar();
+
             connection.Close();
-        }
-
-        public void UpdateVisite(Visite visite)
-        {
-            connection.Open();
-
-            SqlCommand command = new SqlCommand("UPDATE visites SET idpatient = @idpatient, date = @date, medecin = @medecin, num_salle = @num_salle WHERE id = @id", connection);
-            command.Parameters.AddWithValue("@idpatient", visite.IdPatient);
-            command.Parameters.AddWithValue("@date", visite.DateVisite);
-            command.Parameters.AddWithValue("@medecin", visite.NomMedecin);
-            command.Parameters.AddWithValue("@num_salle", visite.NumSalle);
-            command.Parameters.AddWithValue("@id", visite.Id);
-
-            command.ExecuteNonQuery();
-            connection.Close();
-        }
-
-        public void DeleteVisite(int id)
-        {
-            connection.Open();
-
-            SqlCommand command = new SqlCommand("DELETE FROM visites WHERE id = @id", connection);
-            command.Parameters.AddWithValue("@id", id);
-
-            command.ExecuteNonQuery();
-            connection.Close();
+            return count;
         }
     }
 }

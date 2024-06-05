@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace _projet_hopital
 {
@@ -114,20 +111,20 @@ namespace _projet_hopital
             bool quitter = false;
             while (!quitter)
             {
-                Console.WriteLine("\n\n------------------------"); ;
+                Console.WriteLine("\n\n------------------------");
                 Console.WriteLine($"Interface Médecin - Choix de la section via n° correspondant");
                 Console.WriteLine("1. Ajouter une nouvelle visite");
                 Console.WriteLine("2. Afficher les patients en attente");
                 Console.WriteLine("3. Sauvegarder les visites en base de données");
                 Console.WriteLine("4. Déconnexion");
-                Console.WriteLine("------------------------"); ;
+                Console.WriteLine("------------------------");
                 int choixUtilisateur = Convert.ToInt32(Console.ReadLine());
 
                 switch (choixUtilisateur)
                 {
                     case 1:
                         if (fileAttente.Any())
-                            AfficherPatient(fileAttente.Last(), fileAttente, P, visites);
+                            AjoutVisite(fileAttente.First(), visites, P);
                         else
                             Console.WriteLine("Il n'y a personne dans la file d'attente");
                         break;
@@ -136,7 +133,7 @@ namespace _projet_hopital
                         break;
                     case 3:
                         foreach (Visite v in visites)
-                            dao.InsertVisite(v);
+                            dao.UpdateVisiteWithTempsAttente(v.Id, v.TempsAttente);
                         break;
                     case 4:
                         quitter = true;
@@ -345,6 +342,12 @@ namespace _projet_hopital
 
             int nouvelleId = visites.Count + 1; // Créer un nouvel ID pour la visite
 
+            Console.WriteLine("Heure d'arrivée (hh:mm:ss) :");
+            TimeSpan heureArrivee = TimeSpan.Parse(Console.ReadLine());
+
+            Console.WriteLine("Heure de passage (hh:mm:ss) :");
+            TimeSpan heurePassage = TimeSpan.Parse(Console.ReadLine());
+
             Visite nouvelleVisite = new Visite
             {
                 Id = nouvelleId,
@@ -352,14 +355,15 @@ namespace _projet_hopital
                 NomMedecin = P.Nom, // Utiliser le nom de l'authentification comme nom du médecin
                 IdPatient = patient.Id,
                 CoutVisite = coutVisite,
-                NumSalle = patient.NumSalle // Utiliser le numéro de la salle du patient
+                NumSalle = patient.NumSalle, // Utiliser le numéro de la salle du patient
+                TempsAttente = heurePassage - heureArrivee,
+                HeureArrivee = heureArrivee,
+                HeurePassage = heurePassage
             };
 
             visites.Add(nouvelleVisite);
             Console.WriteLine("Visite ajoutée avec succès.");
         }
-
-
 
         private static Authentification VerificationLogin(string nomLogin, string passwordLogin)
         {
@@ -374,4 +378,3 @@ namespace _projet_hopital
         }
     }
 }
-

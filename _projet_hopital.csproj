@@ -51,6 +51,7 @@
     <Compile Include="GestionFileAttente.cs" />
     <Compile Include="Hopital.cs" />
     <Compile Include="Patient.cs" />
+    <Compile Include="PatientService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Salle.cs" />
