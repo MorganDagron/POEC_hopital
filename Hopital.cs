@@ -18,7 +18,7 @@ namespace _projet_hopital
         private Hopital()
         {
             salles = new List<Salle>();
-            index = 0;
+            index = -1;
         }
 
         public static Hopital Instance
