@@ -306,11 +306,12 @@ namespace _projet_hopital
                     Patient nouveauPatient = new Patient(idPatient, newNom, newPrenom, newAge, newAdresse, newTel);
                     dao.InsertPatient(nouveauPatient);
                     fileAttente.Add(nouveauPatient);
+                    Console.WriteLine("Patient ajouté dans la base de donnée et dans la file d'attente");
                 }
             }
             else
             {
-                Console.WriteLine("patient déja présent dans la file d'attente");
+                Console.WriteLine("Patient déja présent dans la file d'attente");
             }
 
         }
