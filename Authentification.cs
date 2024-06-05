@@ -12,9 +12,11 @@ namespace _projet_hopital
         public string Password { get; set; }
         public string Nom { get; set; }
         public int Metier { get; set; }
+        private Hopital hopital;
 
         public Authentification()
         {
+            hopital = Hopital.Instance;
         }
 
         public Authentification(string login, string password, string nom, int metier)
