@@ -142,6 +142,8 @@ namespace _projet_hopital
                     case 3:
                         foreach (Visite v in visites)
                             dao.InsertVisite(v);
+                        Console.WriteLine("Les Visites ont été envoyé à la base de donnée");
+                        visites.Clear();
                         break;
                     case 4:
                         quitter = true;
@@ -181,8 +183,12 @@ namespace _projet_hopital
             visites.Add(new Visite(patient.Id, p.Nom, DateTime.Now, patient.NumSalle));
             //Si la liste est supérieur ou égal à 5 alors envoyé en bdd automatiquement
             if (visites.Count >= 5)
+            {
                 foreach (Visite v in visites)
                     dao.InsertVisite(v);
+                Console.WriteLine("il y avait au moins 5 visites non enregistré\nenregistrement dans la bdd effectué");
+                visites.Clear();
+            }
             //supprimer patient de la file d'attente
             fileAttente.Remove(patient);
 

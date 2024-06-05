@@ -23,7 +23,7 @@ namespace _projet_hopital
         {
             if (estOuvert)
             {
-                Console.WriteLine($"le patient numéro {IdPatient} est affecté à la salle n° {Numero}.");
+                Console.WriteLine($"le patient suivant est affecté à la salle n° {Numero}.");
             }
             else
             {
